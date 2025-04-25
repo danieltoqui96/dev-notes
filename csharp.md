@@ -1,7 +1,9 @@
 # Hoja de Ayuda: C#
 
+## Índice
+
 <details>
-<summary><strong>Índice</strong></summary>
+<summary><strong>Ver índice</strong></summary>
 
 - [Estructura de un Programa en C#](#estructura-de-un-programa-en-c)
 - [Tipos de Datos y Variables](#tipos-de-datos-y-variables)
