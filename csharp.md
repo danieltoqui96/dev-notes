@@ -1,5 +1,17 @@
 # Hoja de Ayuda: C#
 
+<details>
+<summary><strong>Índice</strong></summary>
+
+- [Estructura de un Programa en C#](#estructura-de-un-programa-en-c)
+- [Tipos de Datos y Variables](#tipos-de-datos-y-variables)
+- [Cadenas de texto: métodos comunes](#cadenas-de-texto-métodos-comunes)
+- [Entrada y Salida por Consola](#entrada-y-salida-por-consola)
+- [Conversiones de Tipos](#conversiones-de-tipos)
+- [Convenciones de Nombres en C#](#convenciones-de-nombres-en-c)
+
+</details>
+
 ## Estructura de un Programa en C#
 
 Todo programa en C# comienza dentro de una **clase** y un **namespace**.  
