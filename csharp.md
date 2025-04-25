@@ -33,6 +33,9 @@ namespace HolaMundo
     }
 }
 ```
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
 
 ## Tipos de Datos y Variables
 
@@ -193,6 +196,9 @@ class Configuracion
 | Ámbito            | Implícitamente estático (valor compartido, no depende de instancias). | Puede ser de instancia o estático (añadiendo `static`).         |
 | Tipos permitidos  | Literales constantes (`números`, `char`, `string`, `enum`) y expresiones evaluables en compilación. | Cualquier tipo de dato, incluyendo objetos o estructuras.     |
 
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
 
 ## Cadenas de texto: métodos comunes
 
@@ -232,6 +238,9 @@ int comparacion = string.Compare("abc", "ABC", true); // 0 (true = ignora mayús
 bool vacio = string.IsNullOrEmpty(nombre);   // false
 bool blanco = string.IsNullOrWhiteSpace(" "); // true
 ```
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
 
 ## Entrada y Salida por Consola
 
@@ -247,6 +256,9 @@ char caracter = (char)Console.Read();         // Lee un solo carácter (como có
 string cadena = Console.ReadLine();           // Lee una línea completa como string
 ConsoleKeyInfo tecla = Console.ReadKey();     // Lee una tecla presionada (sin esperar Enter)
 ```
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
 
 ## Conversiones de Tipos
 
@@ -299,6 +311,9 @@ else
 | Valor devuelto         | Valor convertido del tipo de destino.         | `bool` (`true` si la conversión tuvo éxito, `false` si falló). El valor convertido se obtiene mediante un parámetro `out`. |
 | Si el formato es inválido | Lanza una excepción (`FormatException`).       | No lanza excepción; simplemente devuelve `false`.             |
 
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
 
 ## Convenciones de Nombres en C#
 
@@ -316,3 +331,6 @@ En C#, existen convenciones ampliamente utilizadas para nombrar los distintos el
 - **Variables locales** → `camelCase`  
   Ejemplo: `contador`, `precioFinal`
 
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
