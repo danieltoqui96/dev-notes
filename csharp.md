@@ -194,3 +194,91 @@ char caracter = (char)Console.Read();         // Lee un solo carácter (como có
 string cadena = Console.ReadLine();           // Lee una línea completa como string
 ConsoleKeyInfo tecla = Console.ReadKey();     // Lee una tecla presionada (sin esperar Enter)
 ```
+### Convenciones para nombres y estándares en C#
+
+En C#, existen convenciones ampliamente utilizadas para nombrar distintos elementos del código:
+
+- **Clases** → `PascalCase`  
+  Ejemplo: `Persona`, `ProductoController`
+
+- **Métodos** → `PascalCase`  
+  Ejemplo: `CalcularSueldo()`, `ObtenerDatos()`
+
+- **Argumentos** → `camelCase`  
+  Ejemplo: `string nombre`, `int cantidadTotal`
+
+- **Variables locales** → `camelCase`  
+  Ejemplo: `contador`, `precioFinal`
+
+### Conversiones de tipos en C#
+
+En C# se pueden convertir valores de un tipo a otro. Esto se puede hacer de forma **implícita** o **explícita**.
+
+---
+
+#### 🔄 Conversión implícita
+
+Se realiza automáticamente cuando **no hay pérdida de datos**.  
+Solo ocurre entre tipos compatibles (por ejemplo, de `int` a `long`, o de `float` a `double`).
+
+```csharp
+int numero = 100;
+long numeroGrande = numero;       // Conversión implícita
+float decimalCorto = 5.5f;
+double decimalLargo = decimalCorto; // También implícita
+```
+
+####⚠️ Conversión explícita (cast)
+
+Se necesita cuando puede haber **pérdida** de datos o tipos incompatibles.
+Se hace usando **cast** entre paréntesis.
+
+```csharp
+double decimalLargo = 10.75;
+int entero = (int)decimalLargo;   // Pierde la parte decimal (entero = 10)
+
+long grande = 99999;
+short pequeño = (short)grande;    // Posible pérdida de datos
+
+string numeroTexto = "123";
+int numero = int.Parse(numeroTexto);           // Conversión explícita desde string
+int seguro = Convert.ToInt32(numeroTexto);     // Otra forma con manejo de errores
+```
+#### Parsing
+
+El **parsing** es el proceso de convertir un `string` a otro tipo de dato (como `int`, `double`, `bool`, etc.).
+
+```csharp
+// Parse
+//Convierte un `string` a un tipo determinado.  
+//⚠️ Lanza excepción (`FormatException`) si el texto no tiene el formato correcto.
+int numero = int.Parse("123");             // OK
+double decimal1 = double.Parse("3.14");    // OK
+bool estado = bool.Parse("true");          // OK
+
+// int.Parse("abc"); // ❌ Error en tiempo de ejecución
+
+// TryParse
+// Convierte de forma segura, devolviendo true o false según si la conversión fue exitosa.
+// Evita excepciones si el formato no es válido.
+
+string entrada = "456";
+int resultado;
+
+if (int.TryParse(entrada, out resultado))
+    Console.WriteLine("Número válido: " + resultado);
+else
+    Console.WriteLine("Entrada no válida");
+```
+### Constantes
+Una **constante** es un valor que se define una vez y **no puede cambiar** durante la ejecución del programa.
+
+Se declara usando la palabra clave `const`.
+
+```csharp
+const tipo nombre = valor;
+const double PI = 3.1416;
+const int MaxIntentos = 5;
+const string MensajeBienvenida = "¡Hola!";
+```
+
