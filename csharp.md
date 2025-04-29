@@ -11,7 +11,9 @@
 - [Entrada y Salida por Consola](#entrada-y-salida-por-consola)
 - [Conversiones de Tipos](#conversiones-de-tipos)
 - [Convenciones de Nombres en C#](#convenciones-de-nombres-en-c)
-
+- [Funciones](#funciones)
+- [Manejo de errores](#manejo-de-errores)
+- [Operadores en C#](#operadores-en-c)
 </details>
 
 ## Estructura de un Programa en C#
@@ -336,3 +338,177 @@ En C#, existen convenciones ampliamente utilizadas para nombrar los distintos el
 <p align="right">
   <a href="#índice">⬆️ Volver al Índice</a>
 </p>
+
+## Funciones
+Una **función** o **método** es un bloque de código que realiza una tarea específica y ayuda a organizar el programa.
+
+### Estructura básica
+
+```csharp
+modificador tipoRetorno NombreMetodo(parámetros)
+{
+    // Código
+}
+```
+- **modificador**: `public`, `private`, etc.
+- **tipoRetorno**: tipo que devuelve (`int`, `void`, `string`).
+- **NombreMetodo**: debe seguir PascalCase.
+- **parámetros**: valores de entrada (opcional).
+
+### Ejemplos de métodos
+```csharp
+// Método que devuelve un valor
+public static int Sumar(int a, int b)
+{
+    return a + b;
+}
+
+// Método void sin parámetros
+public static void Saludo()
+{
+    Console.WriteLine("Hola");
+}
+
+// Método void con un parámetro
+public static void Mostrar(string mensaje)
+{
+    Console.WriteLine(mensaje);
+}
+```
+
+### LLamada desde `Main`
+
+Cuando se llama un método desde `Main`, este debe ser **`static`**, ya que `Main` es un método estático.
+
+```cshap
+static void Main(string[] args)
+{
+    Saludo();                       // Imprime "Hola"
+    Mostrar("Bienvenido");          // Imprime "Bienvenido"
+}
+```
+
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
+
+## Manejo de errores
+
+En C#, el manejo de errores se hace mediante bloques `try-catch`. Esto permite controlar lo que ocurre si una operación falla, evitando que el programa se detenga abruptamente.
+
+---
+
+### Estructura básica
+
+```csharp
+try
+{
+    // Código que puede causar error
+}
+catch (Exception ex)
+{
+    // Código que se ejecuta si ocurre un error
+}
+```
+### Ejemplo común
+```csharp
+try
+{
+    int num1 = 10;
+    int num2 = 0;
+    int resultado = num1 / num2;
+    Console.WriteLine(resultado);
+}
+catch (DivideByZeroException)
+{
+    Console.WriteLine("No se puede dividir por cero.");
+}
+```
+
+### Bloque `finally` (opcional)
+Se ejecuta siempre, ocurra o no un error.
+
+```csharp
+try
+{
+    // ...
+}
+catch
+{
+    // ...
+}
+finally
+{
+    Console.WriteLine("Esto siempre se ejecuta");
+}
+```
+
+### Capturar detalles del error
+```csharp
+try
+{
+    int.Parse("texto");
+}
+catch (FormatException ex)
+{
+    Console.WriteLine("Error: " + ex.Message);
+}
+```
+- Captura **excepciones específicas** (como `FormatException`, `DivideByZeroException`) si sabes qué error puede ocurrir.
+- Usa `Exception` genérica como **último recurso**.
+- Siempre que trabajes con `Parse`, archivos, conexiones o entrada del usuario, **usa `try-catch`**.
+
+<p align="right"> <a href="#indice">⬆️ Volver al Índice</a> </p> 
+
+## Operadores en C#
+
+Los operadores permiten realizar operaciones entre valores o variables. En C# se agrupan en categorías comunes.
+
+### Aritméticos
+```csharp
++   // Suma
+-   // Resta
+*   // Multiplicación
+/   // División
+%   // Módulo (resto)
+```
+
+### Asignación
+```csharp
+=    // Asignación
++=   // Suma y asigna
+-=   // Resta y asigna
+*=   // Multiplica y asigna
+/=   // Divide y asigna
+```
+
+### Comparación
+```csharp
+==   // Igual a
+!=   // Distinto de
+>    // Mayor que
+<    // Menor que
+>=   // Mayor o igual
+<=   // Menor o igual
+```
+
+### Lógicos
+```csharp
+&&   // Y lógico (AND)
+||   // O lógico (OR)
+!    // Negación (NOT)
+```
+
+### Incremento / Decremento
+```csharp
+++   // Incrementa en 1
+--   // Decrementa en 1
+```
+
+### Ejemplo simple
+```csharp
+int a = 10, b = 5;
+bool resultado = (a > b) && (b != 0); // true
+a += 3;  // a = 13
+```
+<p align="right"> <a href="#indice">⬆️ Volver al Índice</a> </p>
