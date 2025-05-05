@@ -14,6 +14,7 @@
 - [Funciones](#funciones)
 - [Manejo de errores](#manejo-de-errores)
 - [Operadores en C#](#operadores-en-c)
+- [Toma de decisiones](#toma-de-decisiones)
 </details>
 
 ## Estructura de un Programa en C#
@@ -464,51 +465,94 @@ catch (FormatException ex)
 
 Los operadores permiten realizar operaciones entre valores o variables. En C# se agrupan en categorías comunes.
 
-### Aritméticos
-```csharp
-+   // Suma
--   // Resta
-*   // Multiplicación
-/   // División
-%   // Módulo (resto)
-```
+| Tipo             | Operadores                      | Descripción                      |
+|------------------|----------------------------------|----------------------------------|
+| Aritméticos      | `+`, `-`, `*`, `/`, `%`          | Suma, resta, multiplicación, división, módulo |
+| Asignación       | `=`, `+=`, `-=`, `*=`, `/=`      | Asignación directa y compuesta  |
+| Comparación      | `==`, `!=`, `>`, `<`, `>=`, `<=` | Comparaciones de igualdad y orden |
+| Lógicos          | `&&` , `\|\|` , `!`            | Y, O, negación lógica |
 
-### Asignación
-```csharp
-=    // Asignación
-+=   // Suma y asigna
--=   // Resta y asigna
-*=   // Multiplica y asigna
-/=   // Divide y asigna
-```
+| Incremento/Decremento | `++`, `--`                  | Aumenta o disminuye en 1         |
 
-### Comparación
-```csharp
-==   // Igual a
-!=   // Distinto de
->    // Mayor que
-<    // Menor que
->=   // Mayor o igual
-<=   // Menor o igual
-```
 
-### Lógicos
-```csharp
-&&   // Y lógico (AND)
-||   // O lógico (OR)
-!    // Negación (NOT)
-```
+**Aritméticos:** `+` suma · `-` resta · `*` multiplicación · `/` división · `%` módulo  
+**Asignación:** `=` · `+=` · `-=` · `*=` · `/=`  
+**Comparación:** `==` igual · `!=` distinto · `>` · `<` · `>=` · `<=`  
+**Lógicos:** `&&` AND · `||` OR · `!` NOT  
+**Incremento/Decremento:** `++` incrementa · `--` decrementa
 
-### Incremento / Decremento
-```csharp
-++   // Incrementa en 1
---   // Decrementa en 1
-```
-
-### Ejemplo simple
 ```csharp
 int a = 10, b = 5;
 bool resultado = (a > b) && (b != 0); // true
 a += 3;  // a = 13
 ```
+<p align="right"> <a href="#indice">⬆️ Volver al Índice</a> </p>
+
+## Toma de decisiones
+En C#, puedes controlar el flujo del programa usando estructuras condicionales como `if`, `else if`, `else` y `switch`.
+
+### Estructura `if`, `else if`, `else`
+
+```csharp
+int edad = 18;
+
+if (edad < 18)
+{
+    Console.WriteLine("Menor de edad");
+}
+else if (edad == 18)
+{
+    Console.WriteLine("Justo 18");
+}
+else
+{
+    Console.WriteLine("Mayor de edad");
+}
+```
+- Se evalúan las condiciones de arriba hacia abajo.
+- El primer bloque que se cumple se ejecuta.
+- El bloque `else` es opcional y se ejecuta si no se cumple ninguna condición anterior.
+
+### Estructura switch
+
+```csharp
+int opcion = 2;
+
+switch (opcion)
+{
+    case 1:
+        Console.WriteLine("Elegiste 1");
+        break;
+    case 2:
+        Console.WriteLine("Elegiste 2");
+        break;
+    case 3:
+        Console.WriteLine("Elegiste 3");
+        break;
+    default:
+        Console.WriteLine("Opción no válida");
+        break;
+}
+```
+- Evalúa una sola expresión.
+- Cada `case` representa una posible opción.
+- default se ejecuta si ninguna opción coincide.
+- El `break` evita que se ejecuten múltiples casos.
+
+### Operador ternario `? :`
+
+Permite evaluar una condición y devolver un valor según si es verdadera o falsa. Es una forma compacta de un `if...else`.
+
+
+```csharp
+condición ? valorSiVerdadero : valorSiFalso;
+
+int edad = 20;
+string mensaje = (edad >= 18) ? "Mayor de edad" : "Menor de edad";
+Console.WriteLine(mensaje); // Imprime "Mayor de edad"
+```
+- Es ideal para asignaciones simples en una sola línea.
+- Solo debe usarse cuando hay una única instrucción por rama (para mantener claridad).
+
+
 <p align="right"> <a href="#indice">⬆️ Volver al Índice</a> </p>
