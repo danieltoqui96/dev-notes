@@ -459,7 +459,9 @@ catch (FormatException ex)
 - Usa `Exception` genérica como **último recurso**.
 - Siempre que trabajes con `Parse`, archivos, conexiones o entrada del usuario, **usa `try-catch`**.
 
-<p align="right"> <a href="#indice">⬆️ Volver al Índice</a> </p> 
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
 
 ## Operadores en C#
 
@@ -486,8 +488,9 @@ int a = 10, b = 5;
 bool resultado = (a > b) && (b != 0); // true
 a += 3;  // a = 13
 ```
-<p align="right"> <a href="#indice">⬆️ Volver al Índice</a> </p>
-
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
 ## Toma de decisiones
 En C#, puedes controlar el flujo del programa usando estructuras condicionales como `if`, `else if`, `else` y `switch`.
 
@@ -554,5 +557,60 @@ Console.WriteLine(mensaje); // Imprime "Mayor de edad"
 - Es ideal para asignaciones simples en una sola línea.
 - Solo debe usarse cuando hay una única instrucción por rama (para mantener claridad).
 
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
 
-<p align="right"> <a href="#indice">⬆️ Volver al Índice</a> </p>
+## Bucles (Loops)
+
+Los bucles permiten ejecutar una porción de código múltiples veces. C# ofrece varias estructuras de repetición: `for`, `while`, `do while`.
+
+
+### Bucle `for`
+
+Se usa cuando conoces de antemano cuántas veces quieres repetir algo.
+
+```csharp
+for (int i = 0; i < 5; i++)
+{
+    Console.WriteLine(i); // Imprime del 0 al 4
+}
+```
+
+### Bucle `while`
+Se ejecuta mientras la condición sea verdadera. La condición se evalúa antes de entrar.
+```csharp
+int i = 0;
+
+while (i < 5)
+{
+    Console.WriteLine(i);
+    i++;
+}
+```
+
+### Bucle `do while`
+Como `while`, pero la condición se evalúa después, por lo que el código se ejecuta al menos una vez.
+```csharp
+int i = 0;
+
+do
+{
+    Console.WriteLine(i);
+    i++;
+} while (i < 5);
+```
+### Palabras clave útiles
+- `break`: termina el bucle inmediatamente.
+- `continue`: salta a la siguiente iteración.
+
+```csharp
+for (int i = 0; i < 5; i++)
+{
+    if (i == 2) continue;
+    Console.WriteLine(i); // Imprime 0, 1, 3, 4 (salta el 2)
+}
+```
+<p align="right">
+  <a href="#índice">⬆️ Volver al Índice</a>
+</p>
