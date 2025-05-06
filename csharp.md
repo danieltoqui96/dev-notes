@@ -1,616 +1,285 @@
-# Hoja de Ayuda: C#
+# C# Cheat Sheet
 
 ## Índice
 
 <details>
 <summary><strong>Ver índice</strong></summary>
 
-- [Estructura de un Programa en C#](#estructura-de-un-programa-en-c)
-- [Tipos de Datos y Variables](#tipos-de-datos-y-variables)
-- [Cadenas de texto: métodos comunes](#cadenas-de-texto-métodos-comunes)
-- [Entrada y Salida por Consola](#entrada-y-salida-por-consola)
-- [Conversiones de Tipos](#conversiones-de-tipos)
-- [Convenciones de Nombres en C#](#convenciones-de-nombres-en-c)
-- [Funciones](#funciones)
-- [Manejo de errores](#manejo-de-errores)
-- [Operadores en C#](#operadores-en-c)
-- [Toma de decisiones](#toma-de-decisiones)
+- [Estructura de un Programa en C#](#estructura-de-un-programa-en-c#)
+- [Tipos de datos](#tipos-de-datos)
+- [Variables](#variables)
+- [Operadores](#operadores)
+- [Estructuras de control](#estructuras-de-control)
+- [Métodos](#métodos)
+- [Excepciones](#excepciones)
+- [Cadenas de texto](#cadenas-de-texto)
+- [Entrada y salida por consola](#entrada-y-salida-por-consola)
+- [Conversiones de tipos](#conversiones-de-tipos)
+- [Convenciones de nombres](#convenciones-de-nombres)
 </details>
 
 ## Estructura de un Programa en C#
 
-Todo programa en C# comienza dentro de una **clase** y un **namespace**.  
-Para que funcione correctamente, se debe incluir la sentencia `using System;` para acceder a funciones básicas como `Console.WriteLine()`.  
-El método `Main` es el punto de entrada del programa: ahí comienza la ejecución.
+Todo programa en C# reside en un namespace y una clase; el método `Main` es su punto de entrada.
 
 ```csharp
-// Hola Mundo
 using System;
 
-namespace HolaMundo
+namespace MiAplicacion
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hola Mundo");
+            Console.WriteLine("¡Hola, C#!");
         }
     }
 }
 ```
+
 <p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
+  <a href="#índice">⬆️ volver</a>
 </p>
 
-## Tipos de Datos y Variables
+## Tipos de datos
 
-### Tipos de Datos Primitivos
-
-En **C#**, los **tipos de datos primitivos** son aquellos básicos que están integrados en el lenguaje y se usan para almacenar valores simples.
+C# ofrece tipos primitivos para valores simples y tipos por referencia para estructuras más complejas.
 
 ```csharp
-// Enteros
-byte    edadPequeña = 255;         // 8 bits, 0 a 255
-short   numeroCorto = -32000;      // 16 bits
-int     numero = 100;              // 32 bits (el más usado)
-long    numeroLargo = 100000L;     // 64 bits (agregar 'L')
+// Primitivos
+int    numero    = 42;
+double real      = 3.14;
+bool   activo    = true;
+char   letra     = 'A';
 
-// Decimales
-float   decimalCorto = 3.14f;      // 32 bits, requiere 'f'
-double  decimalNormal = 3.1416;    // 64 bits
-decimal decimalPreciso = 10.5m;    // Alta precisión, requiere 'm'
-
-// Carácter y texto
-char    letra = 'A';               // Un solo carácter
-
-// Booleano
-bool    esValido = true;           // true o false
+// Referencia
+string texto    = "Hola";
+int[]  arreglo  = {1,2,3};
 ```
 
-### Tipos de Datos No Primitivos
+| Tipo      | Tamaño   | Rango / Notas                  |
+| --------- | -------- | ------------------------------ |
+| `byte`    | 8 bits   | 0 a 255                        |
+| `short`   | 16 bits  | -32 768 a 32 767               |
+| `int`     | 32 bits  | -2 147 483 648 a 2 147 483 647 |
+| `long`    | 64 bits  | ‘L’ al final                   |
+| `float`   | 32 bits  | sufijo ‘f’                     |
+| `double`  | 64 bits  | predeterminado para decimales  |
+| `decimal` | 128 bits | sufijo ‘m’, alta precisión     |
+| `char`    | 16 bits  | Un solo carácter Unicode       |
+| `bool`    | 1 bit    | true o false                   |
 
-En **C#**, los **tipos no primitivos** (o tipos por referencia y compuestos) son todos aquellos que **no están representados directamente por un valor simple en memoria**, sino que **referencian objetos** u estructuras más complejas.
+<details><summary>Ver más</summary>
+
+**Tipos no primitivos** (_reference types_):
+Clases, arrays, cadenas, `object`, genéricos, `enum`, `struct`, `interface`.
+
+**Valor vs referencia**:
+
+- Tipos de valor (`int`, `struct`): almacenan dato directamente.
+- Tipos de referencia (`string`, `List<T>`): almacenan puntero al objeto.
+</details>
+
+<p align="right">
+  <a href="#índice">⬆️ volver</a>
+</p>
+
+## Variables
+
+Declaración e inicialización de variables; `var` infiere tipo.
 
 ```csharp
-// String (cadena de texto)
-string nombre = "Daniel";
-
-// Objetos y clases
-object dato = 123;
-Persona persona = new Persona();
-
-// Arreglos
-int[] numeros = { 1, 2, 3 };
-
-// Colecciones genéricas
-List<string> nombres = new List<string>();
-Dictionary<int, string> mapa = new Dictionary<int, string>();
-
-// Enumeraciones
-enum Estado { Activo, Inactivo, Suspendido }
-
-// Estructuras
-struct Punto {
-    public int X;
-    public int Y;
-}
-
-// Nullable types
-int? edadOpcional = null;
-
-// Interfaces
-interface IAnimal {
-    void HacerSonido();
-}
+int  edad = 30;       // declaración y asignación
+var nombre = "Ana";   // infiere string
+float altura;
+altura = 1.75f;       // asignación posterior
 ```
 
-### Tipos de Valor vs Tipos de Referencia
+<details><summary>Ver más</summary>
 
-Un **tipo de valor** almacena directamente el dato, mientras que un **tipo de referencia** almacena una referencia (puntero) al dato. Esta diferencia afecta el comportamiento al asignar o pasar variables a métodos. Por ejemplo, al pasar una variable a un método por valor se envía una copia, y al pasarla por referencia, el método puede modificar el original:
+- Variables locales deben inicializarse antes de usar.
+- Campos de clase se inicializan por defecto (0, null, false).
 
-``` csharp
-// Pasaje por valor
-void Cambiar(int x) {
-    x = 100;
-}
+**Constantes vs readonly**
 
-int numero = 5;
-Cambiar(numero);
-Console.WriteLine(numero); // 🔸 Imprime 5 (no cambia)
-
-// Pasaje por referencia (referencia por defecto, e.g. objetos)
-void ModificarLista(List<string> lista) {
-    lista.Add("Hola");
-}
-
-List<string> listaNombres = new List<string>();
-ModificarLista(listaNombres);
-Console.WriteLine(listaNombres.Count); // 🔸 Imprime 1 (sí cambió)
-
-// Forzar pasaje por referencia con ref (para tipos de valor)
-void Cambiar(ref int x) {
-    x = 100;
-}
-
-int otroNumero = 5;
-Cambiar(ref otroNumero);
-Console.WriteLine(otroNumero); // 🔸 Imprime 100
-```
-
-### Declaración e Inicialización de Variables
-
-La declaración de una variable establece su tipo y nombre. Se puede **declarar** una variable sin asignarle valor inmediatamente, pero **no se puede usar** una variable local sin inicializar (produce error de compilación). Los campos de clase, en cambio, se inicializan automáticamente con valores por defecto (por ejemplo `0` para números, `null` para objetos).
+|            | `const`             | `readonly`                    |
+| ---------- | ------------------- | ----------------------------- |
+| Asignación | Solo en declaración | Declaración o constructor     |
+| Tiempo     | Compilación         | Ejecución                     |
+| Ámbito     | Siempre estático    | Instancia o estático opcional |
 
 ```csharp
-// Declaración sin asignar (luego se asigna valor)
-int edad;
-edad = 25;                        // ✅ Asignación posterior
-
-// Declaración e inicialización en una línea
-int altura = 180;
-
-// ❌ Error si se usa sin inicializar:
-// Console.WriteLine(edad); // Error: variable no inicializada
-
-// Campos de clase se inicializan automáticamente:
-class Persona {
-    public int edad;              // valor por defecto: 0
-    public string nombre;         // valor por defecto: null
-}
-```
-
-### Inferencia de Tipo con var
-
-La palabra clave `var` permite declarar variables locales sin especificar el tipo explícitamente; el compilador deduce el tipo a partir del valor asignado. **Nota**: es obligatorio asignar un valor en la declaración cuando se usa `var` (no se puede declarar primero y asignar después).
-
-```csharp
-// El compilador infiere el tipo según el valor asignado
-var ciudad = "Santiago";         // tipo string
-var numero = 42;                 // tipo int
-
-// ❌ No se puede usar var sin inicializar:
-// var x; // Error: debe asignarse al declarar
-```
-
-### Constantes y campos de solo lectura (`readonly`)
-
-La palabra clave `const` permite definir una **constante**, es decir, un valor que se define una vez y no puede cambiar durante la ejecución del programa. Se declara usando `const` antes del tipo. Por otro lado, un campo marcado como `readonly` también define un valor inmutable, pero su valor se puede asignar **en tiempo de ejecución** (en la declaración o en un constructor) en lugar de en tiempo de compilación.
-
-```csharp
-// Ejemplo de const
-const tipo nombre = valor;
 const double PI = 3.1416;
-const int MaxIntentos = 5;
-const string MensajeBienvenida = "¡Hola!";
-
-// Ejemplo de readonly
-class Configuracion
-{
-    public readonly int Limite;
-
-    public Configuracion(int limiteUsuario)
-    {
-        Limite = limiteUsuario; // Se asigna en el constructor
-    }
-}
+readonly int  max;
+public Clase(int valor) { max = valor; }
 ```
 
-| Característica   | `const` (constante)                                   | `readonly` (solo lectura)                                      |
-|------------------|------------------------------------------------------|----------------------------------------------------------------|
-| Asignación        | En tiempo de compilación (debe asignarse al declararla). | En tiempo de ejecución (en la declaración o en el constructor). |
-| Ámbito            | Implícitamente estático (valor compartido, no depende de instancias). | Puede ser de instancia o estático (añadiendo `static`).         |
-| Tipos permitidos  | Literales constantes (`números`, `char`, `string`, `enum`) y expresiones evaluables en compilación. | Cualquier tipo de dato, incluyendo objetos o estructuras.     |
+</details>
 
 <p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
+  <a href="#índice">⬆️ volver</a>
 </p>
 
-## Cadenas de texto: métodos comunes
+Permiten realizar cálculos, comparaciones y lógica en expresiones.
+Permiten realizar cálculos, comparaciones y lógica en expresiones.
+Permiten realizar cálculos, comparaciones y lógica en expresiones.
+Permiten realizar cálculos, comparaciones y lógica en expresiones.
+Permiten realizar cálculos, comparaciones y lógica en expresiones.
+Permiten realizar cálculos, comparaciones y lógica en expresiones.
 
-El tipo `string` ofrece muchos métodos útiles para manipular texto (cadenas de caracteres). A continuación, algunos de los métodos más comunes de la clase `string`:
+## Operadores
 
-```csharp
-string texto = "  Hola Mundo  ";
-string nombre = "daniel";
+Permiten realizar cálculos, comparaciones y lógica en expresiones.
 
-// Longitud de la cadena
-int largo = texto.Length;                   // 13
-
-// Convertir a mayúsculas / minúsculas
-string mayus = nombre.ToUpper();            // "DANIEL"
-string minus = nombre.ToLower();            // "daniel"
-
-// Eliminar espacios en extremos
-string limpio = texto.Trim();               // "Hola Mundo"
-
-// Reemplazar texto
-string reemplazado = texto.Replace("Hola", "Adiós"); // "  Adiós Mundo  "
-
-// Verificar contenido
-bool contiene = texto.Contains("Mundo");    // true
-
-// Verificar comienzo o final específicos
-bool empieza = texto.StartsWith("  H");     // true
-bool termina = texto.EndsWith("  ");        // true
-
-// Subcadena
-string sub = texto.Substring(2, 4);         // "Hola"
-
-// Comparar cadenas (retorna 0 si son iguales)
-int comparacion = string.Compare("abc", "ABC", true); // 0 (true = ignora mayúsculas)
-
-// Comprobar cadena vacía o solo espacios
-bool vacio = string.IsNullOrEmpty(nombre);   // false
-bool blanco = string.IsNullOrWhiteSpace(" "); // true
-```
-<p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
-</p>
-
-## Entrada y Salida por Consola
-
-La clase `Console` proporciona métodos para interactuar con la consola: escribir en la salida estándar o leer desde la entrada estándar.
-
-```csharp
-// Escritura en consola
-Console.Write("Texto");             // Imprime sin salto de línea
-Console.WriteLine("Texto");         // Imprime con salto de línea al final
-
-// Lectura desde consola
-char caracter = (char)Console.Read();         // Lee un solo carácter (como código ASCII)
-string cadena = Console.ReadLine();           // Lee una línea completa como string
-ConsoleKeyInfo tecla = Console.ReadKey();     // Lee una tecla presionada (sin esperar Enter)
-```
-<p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
-</p>
-
-## Conversiones de Tipos
-
-En C# se pueden convertir valores de un tipo a otro de forma **implícita** o **explícita**. Una conversión **implícita** ocurre automáticamente cuando no hay posibilidad de pérdida de información, mientras que una conversión **explícita** (cast) se requiere cuando hay riesgo de pérdida de datos o los tipos no son directamente compatibles.
-
-### 🔄 Conversión Implícita
-
-Se realiza automáticamente cuando **no hay pérdida de datos**. Solo ocurre entre tipos compatibles (por ejemplo, de `int` a `long`, o de `float` a `double`).
-
-```csharp
-int numero = 100;
-long numeroGrande = numero;         // Implícita (int -> long)
-float decimalCorto = 5.5f;
-double decimalLargo = decimalCorto; // También implícita (float -> double)
-```
-### ⚠️ Conversión Explícita (cast)
-
-Se utiliza cuando puede haber **pérdida de datos** o al convertir entre tipos incompatibles. Se realiza anteponiendo el tipo deseado entre paréntesis. **Nota**: para convertir cadenas de texto a valores numéricos u otros tipos se deben usar métodos específicos (no es posible con un cast directo).
-
-```csharp
-double valorDecimal = 10.75;
-int entero = (int)valorDecimal;   // Pierde la parte decimal (entero = 10)
-
-long grande = 99999;
-short pequeño = (short)grande;    // Posible pérdida de datos (si excede rango de short)
-```
-
-### Conversión de cadenas: Parse y TryParse
-La conversión desde texto a un tipo numérico o booleano se realiza mediante métodos de *parsing*. Por ejemplo, `int.Parse` intenta convertir un `string` en entero y lanza una excepción si el formato no es válido. En cambio, `int.TryParse` realiza la conversión de forma segura, devolviendo un valor booleano que indica si tuvo éxito (y proporcionando el resultado convertido via un parámetro `out`).
-
-```csharp
-// Parse (convierte string a tipo específico, lanza excepción si falla)
-int numero = int.Parse("123");             // OK -> 123 (int)
-double decimal1 = double.Parse("3.14");    // OK -> 3.14 (double)
-bool estado = bool.Parse("true");          // OK -> true (bool)
-
-// int.Parse("abc"); // ❌ Lanza FormatException (formato inválido)
-
-// TryParse (convierte string de forma segura, sin excepciones)
-string entrada = "456";
-int resultado;
-if (int.TryParse(entrada, out resultado))
-    Console.WriteLine("Número válido: " + resultado);
-else
-    Console.WriteLine("Entrada no válida");
-```
-
-| Característica        | `Parse` (ej. `int.Parse`)                      | `TryParse` (ej. `int.TryParse`)                                |
-|------------------------|------------------------------------------------|---------------------------------------------------------------|
-| Valor devuelto         | Valor convertido del tipo de destino.         | `bool` (`true` si la conversión tuvo éxito, `false` si falló). El valor convertido se obtiene mediante un parámetro `out`. |
-| Si el formato es inválido | Lanza una excepción (`FormatException`).       | No lanza excepción; simplemente devuelve `false`.             |
+| Categoría   | Operadores              | Ejemplo          |
+| ----------- | ----------------------- | ---------------- |
+| Aritméticos | `+`, `-`, `*`, `/`, `%` | `a + b`          |
+| Asignación  | `=`, `+=`, `-=` …       | `x += 5`         |
+| Comparación | `==`, `!=`, `>`, `<`…   | `a >= b`         |
+| Lógicos     | `&&`, `\|\|`, `!`       | `a && b`         |
+| Incremento  | `++`, `--`              | `i++`            |
+| Ternario    | `? :`                   | `x>0? "sí":"no"` |
 
 <p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
+  <a href="#índice">⬆️ volver</a>
 </p>
 
-## Convenciones de Nombres en C#
+## Estructuras de control
 
-En C#, existen convenciones ampliamente utilizadas para nombrar los distintos elementos del código:
+Dirigen el flujo: decisiones y bucles.
 
-- **Clases** → `PascalCase`  
-  Ejemplo: `Persona`, `ProductoController`
+```csharp
+// if-else
+int edad = 18;
+if (edad < 18) Console.WriteLine("Menor");
+else Console.WriteLine("Adulto");
 
-- **Métodos** → `PascalCase`  
-  Ejemplo: `CalcularSueldo()`, `ObtenerDatos()`
+// for
+for (int i = 0; i < 3; i++)
+    Console.WriteLine(i);
 
-- **Argumentos** → `camelCase`  
-  Ejemplo: `string nombre`, `int cantidadTotal`
+// while
+int j = 0;
+while (j < 3) { Console.WriteLine(j); j++; }
+```
 
-- **Variables locales** → `camelCase`  
-  Ejemplo: `contador`, `precioFinal`
+<details><summary>Ver más</summary>
+
+- `switch` para múltiples casos.
+- `break` sale de bucle o case; `continue` salta a siguiente iteración.
+- `do while` garantiza al menos una ejecución.
+</details>
 
 <p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
+  <a href="#índice">⬆️ volver</a>
 </p>
 
-## Funciones
-Una **función** o **método** es un bloque de código que realiza una tarea específica y ayuda a organizar el programa.
+## Métodos
 
-### Estructura básica
+Bloques reutilizables de código; se definen con modificador, tipo de retorno y nombre en PascalCase.
 
 ```csharp
-modificador tipoRetorno NombreMetodo(parámetros)
+public static int Sumar(int x, int y) => x + y;
+
+static void Main()
 {
-    // Código
-}
-```
-- **modificador**: `public`, `private`, etc.
-- **tipoRetorno**: tipo que devuelve (`int`, `void`, `string`).
-- **NombreMetodo**: debe seguir PascalCase.
-- **parámetros**: valores de entrada (opcional).
-
-### Ejemplos de métodos
-```csharp
-// Método que devuelve un valor
-public static int Sumar(int a, int b)
-{
-    return a + b;
-}
-
-// Método void sin parámetros
-public static void Saludo()
-{
-    Console.WriteLine("Hola");
-}
-
-// Método void con un parámetro
-public static void Mostrar(string mensaje)
-{
-    Console.WriteLine(mensaje);
-}
-```
-
-### LLamada desde `Main`
-
-Cuando se llama un método desde `Main`, este debe ser **`static`**, ya que `Main` es un método estático.
-
-```cshap
-static void Main(string[] args)
-{
-    Saludo();                       // Imprime "Hola"
-    Mostrar("Bienvenido");          // Imprime "Bienvenido"
+    int r = Sumar(3,4);
+    Console.WriteLine(r);  // 7
 }
 ```
 
 <p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
+  <a href="#índice">⬆️ volver</a>
 </p>
 
-## Manejo de errores
+## Excepciones
 
-En C#, el manejo de errores se hace mediante bloques `try-catch`. Esto permite controlar lo que ocurre si una operación falla, evitando que el programa se detenga abruptamente.
-
----
-
-### Estructura básica
+Control de errores en tiempo de ejecución con `try-catch(-finally)`.
 
 ```csharp
 try
 {
-    // Código que puede causar error
-}
-catch (Exception ex)
-{
-    // Código que se ejecuta si ocurre un error
-}
-```
-### Ejemplo común
-```csharp
-try
-{
-    int num1 = 10;
-    int num2 = 0;
-    int resultado = num1 / num2;
-    Console.WriteLine(resultado);
+    int r = 10 / int.Parse("0");
 }
 catch (DivideByZeroException)
 {
-    Console.WriteLine("No se puede dividir por cero.");
-}
-```
-
-### Bloque `finally` (opcional)
-Se ejecuta siempre, ocurra o no un error.
-
-```csharp
-try
-{
-    // ...
-}
-catch
-{
-    // ...
+    Console.WriteLine("No dividir por cero");
 }
 finally
 {
-    Console.WriteLine("Esto siempre se ejecuta");
+    Console.WriteLine("Termina intento");
 }
 ```
-
-### Capturar detalles del error
-```csharp
-try
-{
-    int.Parse("texto");
-}
-catch (FormatException ex)
-{
-    Console.WriteLine("Error: " + ex.Message);
-}
-```
-- Captura **excepciones específicas** (como `FormatException`, `DivideByZeroException`) si sabes qué error puede ocurrir.
-- Usa `Exception` genérica como **último recurso**.
-- Siempre que trabajes con `Parse`, archivos, conexiones o entrada del usuario, **usa `try-catch`**.
 
 <p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
+  <a href="#índice">⬆️ volver</a>
 </p>
 
-## Operadores en C#
+## Cadenas de texto
 
-Los operadores permiten realizar operaciones entre valores o variables. En C# se agrupan en categorías comunes.
-
-| Tipo             | Operadores                      | Descripción                      |
-|------------------|----------------------------------|----------------------------------|
-| Aritméticos      | `+`, `-`, `*`, `/`, `%`          | Suma, resta, multiplicación, división, módulo |
-| Asignación       | `=`, `+=`, `-=`, `*=`, `/=`      | Asignación directa y compuesta  |
-| Comparación      | `==`, `!=`, `>`, `<`, `>=`, `<=` | Comparaciones de igualdad y orden |
-| Lógicos          | `&&` , `\|\|` , `!`            | Y, O, negación lógica |
-
-| Incremento/Decremento | `++`, `--`                  | Aumenta o disminuye en 1         |
-
-
-**Aritméticos:** `+` suma · `-` resta · `*` multiplicación · `/` división · `%` módulo  
-**Asignación:** `=` · `+=` · `-=` · `*=` · `/=`  
-**Comparación:** `==` igual · `!=` distinto · `>` · `<` · `>=` · `<=`  
-**Lógicos:** `&&` AND · `||` OR · `!` NOT  
-**Incremento/Decremento:** `++` incrementa · `--` decrementa
+Manipulación de `string` con métodos esenciales.
 
 ```csharp
-int a = 10, b = 5;
-bool resultado = (a > b) && (b != 0); // true
-a += 3;  // a = 13
+string s = "  Hola C#  ";
+Console.WriteLine(s.Trim().ToUpper()); // "HOLA C#"
+Console.WriteLine(s.Substring(2,4));   // "Hola"
 ```
-<p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
-</p>
-## Toma de decisiones
-En C#, puedes controlar el flujo del programa usando estructuras condicionales como `if`, `else if`, `else` y `switch`.
 
-### Estructura `if`, `else if`, `else`
-
-```csharp
-int edad = 18;
-
-if (edad < 18)
-{
-    Console.WriteLine("Menor de edad");
-}
-else if (edad == 18)
-{
-    Console.WriteLine("Justo 18");
-}
-else
-{
-    Console.WriteLine("Mayor de edad");
-}
-```
-- Se evalúan las condiciones de arriba hacia abajo.
-- El primer bloque que se cumple se ejecuta.
-- El bloque `else` es opcional y se ejecuta si no se cumple ninguna condición anterior.
-
-### Estructura switch
-
-```csharp
-int opcion = 2;
-
-switch (opcion)
-{
-    case 1:
-        Console.WriteLine("Elegiste 1");
-        break;
-    case 2:
-        Console.WriteLine("Elegiste 2");
-        break;
-    case 3:
-        Console.WriteLine("Elegiste 3");
-        break;
-    default:
-        Console.WriteLine("Opción no válida");
-        break;
-}
-```
-- Evalúa una sola expresión.
-- Cada `case` representa una posible opción.
-- default se ejecuta si ninguna opción coincide.
-- El `break` evita que se ejecuten múltiples casos.
-
-### Operador ternario `? :`
-
-Permite evaluar una condición y devolver un valor según si es verdadera o falsa. Es una forma compacta de un `if...else`.
-
-
-```csharp
-condición ? valorSiVerdadero : valorSiFalso;
-
-int edad = 20;
-string mensaje = (edad >= 18) ? "Mayor de edad" : "Menor de edad";
-Console.WriteLine(mensaje); // Imprime "Mayor de edad"
-```
-- Es ideal para asignaciones simples en una sola línea.
-- Solo debe usarse cuando hay una única instrucción por rama (para mantener claridad).
+| Método         | Descripción             |
+| -------------- | ----------------------- |
+| `Trim()`       | Quita espacios extremos |
+| `ToUpper()`    | Mayúsculas              |
+| `ToLower()`    | Minúsculas              |
+| `Contains()`   | Busca subcadena         |
+| `Replace(a,b)` | Reemplaza texto         |
 
 <p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
+  <a href="#índice">⬆️ volver</a>
 </p>
 
-## Bucles (Loops)
+## Entrada y salida por consola
 
-Los bucles permiten ejecutar una porción de código múltiples veces. C# ofrece varias estructuras de repetición: `for`, `while`, `do while`.
-
-
-### Bucle `for`
-
-Se usa cuando conoces de antemano cuántas veces quieres repetir algo.
+Lectura y escritura usando `Console`.
 
 ```csharp
-for (int i = 0; i < 5; i++)
-{
-    Console.WriteLine(i); // Imprime del 0 al 4
-}
+Console.Write("Nombre: ");
+string nombre = Console.ReadLine();
+Console.WriteLine($"Hola, {nombre}");
 ```
 
-### Bucle `while`
-Se ejecuta mientras la condición sea verdadera. La condición se evalúa antes de entrar.
-```csharp
-int i = 0;
-
-while (i < 5)
-{
-    Console.WriteLine(i);
-    i++;
-}
-```
-
-### Bucle `do while`
-Como `while`, pero la condición se evalúa después, por lo que el código se ejecuta al menos una vez.
-```csharp
-int i = 0;
-
-do
-{
-    Console.WriteLine(i);
-    i++;
-} while (i < 5);
-```
-### Palabras clave útiles
-- `break`: termina el bucle inmediatamente.
-- `continue`: salta a la siguiente iteración.
-
-```csharp
-for (int i = 0; i < 5; i++)
-{
-    if (i == 2) continue;
-    Console.WriteLine(i); // Imprime 0, 1, 3, 4 (salta el 2)
-}
-```
 <p align="right">
-  <a href="#índice">⬆️ Volver al Índice</a>
+  <a href="#índice">⬆️ volver</a>
+</p>
+
+## Conversiones de tipos
+
+Cast explícito e implícito; `Parse` vs `TryParse`.
+
+```csharp
+double d = 9.7;
+int    i = (int)d;            // cast, pierde .7
+
+if (int.TryParse("123", out int v))
+    Console.WriteLine(v);     // 123
+```
+
+| Conversión     | Implícita | Explícita (cast) | Parse vs TryParse           |
+| -------------- | --------- | ---------------- | --------------------------- |
+| `int`→`long`   | ✓         | —                | —                           |
+| `double`→`int` | —         | ✓ `(int)d`       | `int.Parse`, `int.TryParse` |
+
+<p align="right">
+  <a href="#índice">⬆️ volver</a>
+</p>
+
+## Convenciones de nombres
+
+Guías para legibilidad y mantenimiento:
+
+- **Clases y métodos**: `PascalCase` → `MiClase`, `ObtenerDatos()`
+- **Variables y parámetros**: `camelCase` → `totalItems`, `nombreUsuario`
+- **Constantes**: `UPPER_SNAKE_CASE` o `PascalCase` → `MAX_INTENTOS`
+
+<p align="right">
+  <a href="#índice">⬆️ volver</a>
 </p>
