@@ -5,12 +5,13 @@
 <details>
 <summary><strong>Ver índice</strong></summary>
 
-- [Estructura de un Programa en C#](#estructura-de-un-programa-en-c#)
+- [Estructura de un Programa en C#](#estructura-de-un-programa-en-c)
 - [Tipos de datos](#tipos-de-datos)
 - [Variables](#variables)
 - [Operadores](#operadores)
 - [Estructuras de control](#estructuras-de-control)
 - [Métodos](#métodos)
+- [Programación Orientada a Objetos](#programación-orientada-a-objetos)
 - [Excepciones](#excepciones)
 - [Cadenas de texto](#cadenas-de-texto)
 - [Entrada y salida por consola](#entrada-y-salida-por-consola)
@@ -38,7 +39,7 @@ namespace MiAplicacion
 ```
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Tipos de datos
@@ -81,7 +82,7 @@ Clases, arrays, cadenas, `object`, genéricos, `enum`, `struct`, `interface`.
 </details>
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Variables
@@ -117,7 +118,7 @@ public Clase(int valor) { max = valor; }
 </details>
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 Permiten realizar cálculos, comparaciones y lógica en expresiones.
@@ -141,7 +142,7 @@ Permiten realizar cálculos, comparaciones y lógica en expresiones.
 | Ternario    | `? :`                   | `x>0? "sí":"no"` |
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Estructuras de control
@@ -171,7 +172,7 @@ while (j < 3) { Console.WriteLine(j); j++; }
 </details>
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Métodos
@@ -189,7 +190,66 @@ static void Main()
 ```
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
+</p>
+
+## Programación Orientada a Objetos
+
+La POO permite modelar entidades del mundo real en clases con datos (campos) y comportamiento (métodos), instanciándolas como objetos.
+
+```csharp
+// Definición de clase con constructor, propiedad y destructor
+class Persona
+{
+    public string Nombre { get; set; }      // Propiedad automática
+    public int Edad { get; set; }
+
+    public Persona(string nombre, int edad)  // Constructor
+    {
+        Nombre = nombre;
+        Edad = edad;
+    }
+
+    ~Persona()                              // Destructor (finalizador)
+    {
+        // Cleanup si fuera necesario
+    }
+}
+
+// Crear y usar objeto
+static void Main()
+{
+    var p = new Persona("Ana", 28);
+    Console.WriteLine($"{p.Nombre}, {p.Edad} años");
+}
+```
+
+| Elemento      | Sintaxis                      | Nota                                   |
+| ------------- | ----------------------------- | -------------------------------------- |
+| Clase         | `class Nombre { … }`          | Define tipo de referencia              |
+| Constructor   | `public Clase(...) { … }`     | Mismo nombre que la clase              |
+| Propiedad     | `public T Prop { get; set; }` | Atajos para campo privado              |
+| Destructor    | `~Clase() { … }`              | Se invoca al recolector de basura (GC) |
+| Instanciación | `new Clase(args)`             | Reserva y retorna objeto               |
+
+<details><summary>Ver más</summary>
+    
+- **Encapsulamiento**: usar `private` para campos y exponer sólo con propiedades.
+- **this**: referencia al objeto actual, útil en constructores.
+- **Propiedades con lógica**:
+    ```csharp
+    private int edad;
+    public int Edad
+    {
+    get => edad;
+    set { if (value >= 0) edad = value; }
+    }
+    ```
+- **Herencia y polimorfismo**: `class Empleado : Persona { … }`, `virtual`/`override`.
+</details>
+
+<p align="right">
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Excepciones
@@ -212,7 +272,7 @@ finally
 ```
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Cadenas de texto
@@ -234,7 +294,7 @@ Console.WriteLine(s.Substring(2,4));   // "Hola"
 | `Replace(a,b)` | Reemplaza texto         |
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Entrada y salida por consola
@@ -248,7 +308,7 @@ Console.WriteLine($"Hola, {nombre}");
 ```
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Conversiones de tipos
@@ -269,7 +329,7 @@ if (int.TryParse("123", out int v))
 | `double`→`int` | —         | ✓ `(int)d`       | `int.Parse`, `int.TryParse` |
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
 
 ## Convenciones de nombres
@@ -281,5 +341,5 @@ Guías para legibilidad y mantenimiento:
 - **Constantes**: `UPPER_SNAKE_CASE` o `PascalCase` → `MAX_INTENTOS`
 
 <p align="right">
-  <a href="#índice">⬆️ volver</a>
+  <a href="#índice">⬆️</a>
 </p>
