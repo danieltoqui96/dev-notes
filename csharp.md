@@ -192,7 +192,7 @@ Console.WriteLine(dentroRango ? "Dentro de rango" : "Fuera de rango");  // Dentr
 - **Operador condicional nulo** `?.`: si el operando izquierdo es `null`, la expresión completa devuelve `null` (en lugar de arrojar error).
 - **Coalescencia nula** `??:` devuelve el operando derecho si el izquierdo es `null`.
 - **Asignación nula** `??=`: asigna el operando derecho a la variable izquierda solo si esta es `null`.
-<details>
+</details>
 
 <p align="right">
   <a href="#índice">⬆️</a>
