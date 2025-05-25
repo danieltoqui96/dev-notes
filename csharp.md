@@ -110,20 +110,39 @@ Console.WriteLine(s.Substring(2,4));   // "Hola"
 
 ## Conversiones de tipos
 
-Cast explícito e implícito; `Parse` vs `TryParse`.
+Transformaciones comunes entre números, cadenas y fechas
 
 ```csharp
+// 1. Números: implícita y explícita
+int    a = 10;
+long   b = a;           // implícita widening
 double d = 9.7;
-int    i = (int)d;            // cast, pierde .7
+int    i = (int)d;      // explícita narrowing
 
+// 2. De string a valor
 if (int.TryParse("123", out int v))
-    Console.WriteLine(v);     // 123
+    Console.WriteLine(v);               // 123
+DateTime dt = DateTime.Parse("2025-05-24");
+
+// 3. A string
+string s1 = i.ToString();
+string s2 = dt.ToString("yyyy-MM-dd");
+
 ```
 
-| Conversión     | Implícita | Explícita (cast) | Parse vs TryParse           |
-| -------------- | --------- | ---------------- | --------------------------- |
-| `int`→`long`   | ✓         | —                | —                           |
-| `double`→`int` | —         | ✓ `(int)d`       | `int.Parse`, `int.TryParse` |
+| Origen                | Destino  | Método                         |
+| --------------------- | -------- | ------------------------------ |
+| `int` → `long`        | numérico | implícita                      |
+| `double` → `int`      | numérico | explícita `(int)d`             |
+| `string` → `int`      | entero   | `int.Parse` / `int.TryParse`   |
+| `string` → `DateTime` | fecha    | `DateTime.Parse` / `TryParse`  |
+| cualquier tipo        | `string` | `ToString()` / `ToString(fmt)` |
+
+<details><summary>Ver más</summary>
+
+- **Usa TryParse** para evitar excepciones en formatos inválidos.
+- **Parse** lanza excepción si falla. - Para enums: `Enum.TryParse<T>(...)`.
+</details>
 
 <p align="right">
   <a href="#índice">⬆️</a>
@@ -376,7 +395,7 @@ static void Main()
 <details><summary>Ver más</summary>
     
 - **Encapsulamiento**: usar `private` para campos y exponer sólo con propiedades públicas.
-- **this**: referencia al objeto actual (instancia en curso), útil para distinguir campos de parámetros o invocar constructores sobrecargados.
+- `this`: referencia al objeto actual (instancia en curso), útil para distinguir campos de parámetros o invocar constructores sobrecargados.
 - **Propiedades con lógica** (propiedades completas):
     ```csharp
     private int edad;
@@ -394,6 +413,8 @@ static void Main()
 </p>
 
 ## Otros conceptos útiles
+
+Conceptos adicionales útiles en C#, incluyendo la interacción por consola y las convenciones de nomenclatura.
 
 ### Entrada y salida por consola
 
