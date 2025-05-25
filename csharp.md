@@ -108,7 +108,7 @@ Console.WriteLine(s.Substring(2,4));   // "Hola"
   <a href="#índice">⬆️</a>
 </p>
 
-## Conversiones de tipos
+## Conversiones de tipo
 
 Transformaciones comunes entre números, cadenas y fechas
 
