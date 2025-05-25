@@ -10,6 +10,7 @@
 - [Variables](#variables)
 - [Operadores](#operadores)
 - [Estructuras de control](#estructuras-de-control)
+- [Arrays y Colecciones](#arrays-y-colecciones)
 - [Métodos](#métodos)
 - [Programación Orientada a Objetos](#programación-orientada-a-objetos)
 - [Excepciones](#excepciones)
@@ -169,6 +170,65 @@ while (j < 3) { Console.WriteLine(j); j++; }
 - `switch` para múltiples casos.
 - `break` sale de bucle o case; `continue` salta a siguiente iteración.
 - `do while` garantiza al menos una ejecución.
+</details>
+
+<p align="right">
+  <a href="#índice">⬆️</a>
+</p>
+
+## Arrays y Colecciones
+
+Estructuras para agrupar elementos del mismo tipo y manipularlos de forma ordenada.
+
+```csharp
+// Array unidimensional y longitud
+int[] numeros = {1, 2, 3, 4};
+Console.WriteLine(numeros.Length);  // 4
+
+// foreach
+foreach (var n in numeros)
+    Console.Write($"{n} ");
+
+// Array multidimensional
+int[,] matrix = { {1,2}, {3,4} };
+Console.WriteLine(matrix[1,0]);     // 3
+
+// Array irregular (jagged)
+int[][] jagged = {
+    new int[] {1,2},
+    new int[] {3,4,5}
+};
+Console.WriteLine(jagged[1].Length); // 3
+
+// Pasar array como parámetro
+static int Sumar(int[] a)
+{
+    int s = 0;
+    foreach (var x in a) s += x;
+    return s;
+}
+
+// ArrayList vs List<T>
+var al = new System.Collections.ArrayList {1, "dos", 3};
+var list = new List<int> {1, 2, 3};
+```
+
+| Tipo        | Descripción                                     |
+| ----------- | ----------------------------------------------- |
+| `T[]`       | Array fijo de elementos tipo `T`                |
+| `T[,]`      | Matriz rectangular de 2 o más dimensiones       |
+| `T[][]`     | “Jagged”: array de arrays con longitudes libres |
+| `ArrayList` | Colección no genérica, boxing/unboxing          |
+| `List<T>`   | Colección genérica, dinámica y tipada           |
+
+<details><summary>Ver más</summary>
+
+- **Redimensionar**: `Array.Resize(ref numeros, 6)`;
+- **Inicializar**: `var a = new int[5]; // todos ceros`
+- **Índice y rango** (.NET Core+): `numeros[^1]` (último), `numeros[1..3]` (subarray)
+- **Colecciones** `avanzadas: Dictionary<TKey,TValue>`, `HashSet<T>`, `Queue<T>`, `Stack<T>`
+- **Conversión**: `list.ToArray()`, `array.ToList() (LINQ)`
+- **ArrayList** está obsoleto en código moderno: prefiere `List<T>` por seguridad de tipos y rendimiento.
 </details>
 
 <p align="right">
