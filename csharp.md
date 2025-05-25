@@ -1,4 +1,4 @@
-# C# Cheat Sheet
+# C# – Guía de referencia rápida
 
 ## Índice
 
@@ -7,17 +7,15 @@
 
 - [Estructura de un Programa en C#](#estructura-de-un-programa-en-c)
 - [Tipos de datos](#tipos-de-datos)
+- [Conversiones de tipo](#conversiones-de-tipo)
 - [Variables](#variables)
 - [Operadores](#operadores)
 - [Estructuras de control](#estructuras-de-control)
-- [Arrays y Colecciones](#arrays-y-colecciones)
 - [Métodos](#métodos)
-- [Programación Orientada a Objetos](#programación-orientada-a-objetos)
 - [Excepciones](#excepciones)
-- [Cadenas de texto](#cadenas-de-texto)
-- [Entrada y salida por consola](#entrada-y-salida-por-consola)
-- [Conversiones de tipos](#conversiones-de-tipos)
-- [Convenciones de nombres](#convenciones-de-nombres)
+- [Arrays y Colecciones](#arrays-y-colecciones)
+- [Programación Orientada a Objetos](#programación-orientada-a-objetos)
+- [Otros conceptos útiles](#otros-conceptos-útiles)
 </details>
 
 ## Estructura de un Programa en C#
@@ -38,6 +36,13 @@ namespace MiAplicacion
     }
 }
 ```
+
+<details>
+<summary>Ver más</summary>
+
+A partir de C# 9, es posible escribir un programa _sin_ definir explícitamente la clase `Program` ni el método `Main` (característica conocida como _top-level statements_). El código puede escribirse directamente en el archivo fuente, y el compilador generará automáticamente un `Main` implícito en tiempo de compilación.
+
+</details>
 
 <p align="right">
   <a href="#índice">⬆️</a>
@@ -71,16 +76,54 @@ int[]  arreglo  = {1,2,3};
 | `char`    | 16 bits  | Un solo carácter Unicode       |
 | `bool`    | 1 bit    | true o false                   |
 
+### Cadenas de texto
+
+Manipulación de `string` con métodos esenciales.
+
+```csharp
+string s = "  Hola C#  ";
+Console.WriteLine(s.Trim().ToUpper()); // "HOLA C#"
+Console.WriteLine(s.Substring(2,4));   // "Hola"
+```
+
+| Método         | Descripción             |
+| -------------- | ----------------------- |
+| `Trim()`       | Quita espacios extremos |
+| `ToUpper()`    | Mayúsculas              |
+| `ToLower()`    | Minúsculas              |
+| `Contains()`   | Busca subcadena         |
+| `Replace(a,b)` | Reemplaza texto         |
+
 <details><summary>Ver más</summary>
 
-**Tipos no primitivos** (_reference types_):
-Clases, arrays, cadenas, `object`, genéricos, `enum`, `struct`, `interface`.
+**Tipos no primitivos** (_reference types_): Clases, arrays, cadenas, `object`, genéricos, `enum`, `struct`, `interface`.
 
 **Valor vs referencia**:
 
 - Tipos de valor (`int`, `struct`): almacenan dato directamente.
 - Tipos de referencia (`string`, `List<T>`): almacenan puntero al objeto.
 </details>
+
+<p align="right">
+  <a href="#índice">⬆️</a>
+</p>
+
+## Conversiones de tipos
+
+Cast explícito e implícito; `Parse` vs `TryParse`.
+
+```csharp
+double d = 9.7;
+int    i = (int)d;            // cast, pierde .7
+
+if (int.TryParse("123", out int v))
+    Console.WriteLine(v);     // 123
+```
+
+| Conversión     | Implícita | Explícita (cast) | Parse vs TryParse           |
+| -------------- | --------- | ---------------- | --------------------------- |
+| `int`→`long`   | ✓         | —                | —                           |
+| `double`→`int` | —         | ✓ `(int)d`       | `int.Parse`, `int.TryParse` |
 
 <p align="right">
   <a href="#índice">⬆️</a>
@@ -122,16 +165,18 @@ public Clase(int valor) { max = valor; }
   <a href="#índice">⬆️</a>
 </p>
 
-Permiten realizar cálculos, comparaciones y lógica en expresiones.
-Permiten realizar cálculos, comparaciones y lógica en expresiones.
-Permiten realizar cálculos, comparaciones y lógica en expresiones.
-Permiten realizar cálculos, comparaciones y lógica en expresiones.
-Permiten realizar cálculos, comparaciones y lógica en expresiones.
-Permiten realizar cálculos, comparaciones y lógica en expresiones.
-
 ## Operadores
 
 Permiten realizar cálculos, comparaciones y lógica en expresiones.
+
+```csharp
+int x = 10;
+x += 5;
+Console.WriteLine(x);         // 15
+Console.WriteLine(x != 0);    // True
+bool dentroRango = (x > 0 && x < 20);
+Console.WriteLine(dentroRango ? "Dentro de rango" : "Fuera de rango");  // Dentro de rango
+```
 
 | Categoría   | Operadores              | Ejemplo          |
 | ----------- | ----------------------- | ---------------- |
@@ -141,6 +186,13 @@ Permiten realizar cálculos, comparaciones y lógica en expresiones.
 | Lógicos     | `&&`, `\|\|`, `!`       | `a && b`         |
 | Incremento  | `++`, `--`              | `i++`            |
 | Ternario    | `? :`                   | `x>0? "sí":"no"` |
+
+<details><summary>Ver más</summary>
+
+- **Operador condicional nulo** `?.`: si el operando izquierdo es `null`, la expresión completa devuelve `null` (en lugar de arrojar error).
+- **Coalescencia nula** `??:` devuelve el operando derecho si el izquierdo es `null`.
+- **Asignación nula** `??=`: asigna el operando derecho a la variable izquierda solo si esta es `null`.
+<details>
 
 <p align="right">
   <a href="#índice">⬆️</a>
@@ -168,8 +220,55 @@ while (j < 3) { Console.WriteLine(j); j++; }
 <details><summary>Ver más</summary>
 
 - `switch` para múltiples casos.
-- `break` sale de bucle o case; `continue` salta a siguiente iteración.
-- `do while` garantiza al menos una ejecución.
+- `break` sale de un bucle o un `case` en `switch`; `continue` pasa a la siguiente iteración del bucle.
+- `do { … } while (condición);` garantiza ejecutar el bloque al menos una vez.
+</details>
+
+<p align="right">
+  <a href="#índice">⬆️</a>
+</p>
+
+## Métodos
+
+Bloques reutilizables de código; se definen con modificador, tipo de retorno y nombre en PascalCase.
+
+```csharp
+public static int Sumar(int x, int y) => x + y;
+
+static void Main()
+{
+    int r = Sumar(3,4);
+    Console.WriteLine(r);  // 7
+}
+```
+
+<p align="right">
+  <a href="#índice">⬆️</a>
+</p>
+
+## Excepciones
+
+Control de errores en tiempo de ejecución con `try-catch` (y bloque `finally` opcional).
+
+```csharp
+try
+{
+    int r = 10 / int.Parse("0");
+}
+catch (DivideByZeroException)
+{
+    Console.WriteLine("No dividir por cero");
+}
+finally
+{
+    Console.WriteLine("Termina intento");
+}
+```
+
+<details><summary>Ver más</summary>
+
+- **Lanzar una excepción**: usar `throw new Exception("Mensaje");` (idealmente una excepción específica) para generar un error manualmente.
+- **Excepciones comunes**: `ArgumentNullException`, `InvalidOperationException`, `FormatException`, etc.
 </details>
 
 <p align="right">
@@ -223,31 +322,13 @@ var list = new List<int> {1, 2, 3};
 
 <details><summary>Ver más</summary>
 
-- **Redimensionar**: `Array.Resize(ref numeros, 6)`;
-- **Inicializar**: `var a = new int[5]; // todos ceros`
-- **Índice y rango** (.NET Core+): `numeros[^1]` (último), `numeros[1..3]` (subarray)
-- **Colecciones** `avanzadas: Dictionary<TKey,TValue>`, `HashSet<T>`, `Queue<T>`, `Stack<T>`
-- **Conversión**: `list.ToArray()`, `array.ToList() (LINQ)`
-- **ArrayList** está obsoleto en código moderno: prefiere `List<T>` por seguridad de tipos y rendimiento.
+- **Redimensionar**: `Array.Resize(ref numeros, 6);` cambia el tamaño (rellena con valores por defecto si crece).
+- **Inicializar**: `var a = new int[5];` todos elementos inicializan a 0.
+- **Índice y rango** (.NET Core+): `numeros[^1]` (último elemento), `numeros[1..3]` (subarray del índice 1 al 2)
+- **Colecciones avanzadas**: `Dictionary<TKey,TValue>`, `HashSet<T>`, `Queue<T>`, `Stack<T>`, etc.
+- **Conversión**: `list.ToArray()`, `array.ToList()` (LINQ)
+- **ArrayList**: En código moderno se prefiere `List<T>` por seguridad de tipos y rendimiento.
 </details>
-
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
-
-## Métodos
-
-Bloques reutilizables de código; se definen con modificador, tipo de retorno y nombre en PascalCase.
-
-```csharp
-public static int Sumar(int x, int y) => x + y;
-
-static void Main()
-{
-    int r = Sumar(3,4);
-    Console.WriteLine(r);  // 7
-}
-```
 
 <p align="right">
   <a href="#índice">⬆️</a>
@@ -294,72 +375,29 @@ static void Main()
 
 <details><summary>Ver más</summary>
     
-- **Encapsulamiento**: usar `private` para campos y exponer sólo con propiedades.
-- **this**: referencia al objeto actual, útil en constructores.
-- **Propiedades con lógica**:
+- **Encapsulamiento**: usar `private` para campos y exponer sólo con propiedades públicas.
+- **this**: referencia al objeto actual (instancia en curso), útil para distinguir campos de parámetros o invocar constructores sobrecargados.
+- **Propiedades con lógica** (propiedades completas):
     ```csharp
     private int edad;
     public int Edad
     {
-    get => edad;
-    set { if (value >= 0) edad = value; }
+        get => edad;
+        set { if (value >= 0) edad = value; }
     }
     ```
-- **Herencia y polimorfismo**: `class Empleado : Persona { … }`, `virtual`/`override`.
+- **Herencia y polimorfismo**: `class Empleado : Persona { … }` (hereda de Persona); usar miembros `virtual`/`override` para sobreescribir comportamiento en la subclase.
 </details>
 
 <p align="right">
   <a href="#índice">⬆️</a>
 </p>
 
-## Excepciones
+## Otros conceptos útiles
 
-Control de errores en tiempo de ejecución con `try-catch(-finally)`.
+### Entrada y salida por consola
 
-```csharp
-try
-{
-    int r = 10 / int.Parse("0");
-}
-catch (DivideByZeroException)
-{
-    Console.WriteLine("No dividir por cero");
-}
-finally
-{
-    Console.WriteLine("Termina intento");
-}
-```
-
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
-
-## Cadenas de texto
-
-Manipulación de `string` con métodos esenciales.
-
-```csharp
-string s = "  Hola C#  ";
-Console.WriteLine(s.Trim().ToUpper()); // "HOLA C#"
-Console.WriteLine(s.Substring(2,4));   // "Hola"
-```
-
-| Método         | Descripción             |
-| -------------- | ----------------------- |
-| `Trim()`       | Quita espacios extremos |
-| `ToUpper()`    | Mayúsculas              |
-| `ToLower()`    | Minúsculas              |
-| `Contains()`   | Busca subcadena         |
-| `Replace(a,b)` | Reemplaza texto         |
-
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
-
-## Entrada y salida por consola
-
-Lectura y escritura usando `Console`.
+Lectura y escritura básica en la consola con la clase `Console`.
 
 ```csharp
 Console.Write("Nombre: ");
@@ -367,34 +405,9 @@ string nombre = Console.ReadLine();
 Console.WriteLine($"Hola, {nombre}");
 ```
 
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
+### Convenciones de nombres
 
-## Conversiones de tipos
-
-Cast explícito e implícito; `Parse` vs `TryParse`.
-
-```csharp
-double d = 9.7;
-int    i = (int)d;            // cast, pierde .7
-
-if (int.TryParse("123", out int v))
-    Console.WriteLine(v);     // 123
-```
-
-| Conversión     | Implícita | Explícita (cast) | Parse vs TryParse           |
-| -------------- | --------- | ---------------- | --------------------------- |
-| `int`→`long`   | ✓         | —                | —                           |
-| `double`→`int` | —         | ✓ `(int)d`       | `int.Parse`, `int.TryParse` |
-
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
-
-## Convenciones de nombres
-
-Guías para legibilidad y mantenimiento:
+Convenciones de nomenclatura para mejorar la legibilidad y mantenimiento del código:
 
 - **Clases y métodos**: `PascalCase` → `MiClase`, `ObtenerDatos()`
 - **Variables y parámetros**: `camelCase` → `totalItems`, `nombreUsuario`
