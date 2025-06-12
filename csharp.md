@@ -296,57 +296,167 @@ finally
 
 ## Arrays y Colecciones
 
-Estructuras para agrupar elementos del mismo tipo y manipularlos de forma ordenada.
+Estructuras para agrupar y manipular conjuntos de elementos. Los arrays tienen un tamaño fijo, mientras que las colecciones son dinámicas.
+
+### Arrays
+
+Son colecciones de tamaño fijo y tipo específico. Se clasifican según sus dimensiones.
+
+**Arrays Unidimensionales**
+
+La forma más simple de array: una lista secuencial de elementos.
 
 ```csharp
-// Array unidimensional y longitud
-int[] numeros = {1, 2, 3, 4};
-Console.WriteLine(numeros.Length);  // 4
+// Declarar e inicializar un array de tamaño fijo
+var nombres = new string[3] { "Ana", "Luis", "Marcos" };
 
-// foreach
-foreach (var n in numeros)
-    Console.Write($"{n} ");
+// Acceder a un elemento por su índice
+Console.WriteLine($"El segundo elemento es: {nombres[1]}"); // Salida: Luis
 
-// Array multidimensional
-int[,] matrix = { {1,2}, {3,4} };
-Console.WriteLine(matrix[1,0]);     // 3
-
-// Array irregular (jagged)
-int[][] jagged = {
-    new int[] {1,2},
-    new int[] {3,4,5}
-};
-Console.WriteLine(jagged[1].Length); // 3
-
-// Pasar array como parámetro
-static int Sumar(int[] a)
-{
-    int s = 0;
-    foreach (var x in a) s += x;
-    return s;
-}
-
-// ArrayList vs List<T>
-var al = new System.Collections.ArrayList {1, "dos", 3};
-var list = new List<int> {1, 2, 3};
+// Obtener la cantidad de elementos
+Console.WriteLine($"Tamaño del array: {nombres.Length}"); // Salida: 3
 ```
 
-| Tipo        | Descripción                                     |
-| ----------- | ----------------------------------------------- |
-| `T[]`       | Array fijo de elementos tipo `T`                |
-| `T[,]`      | Matriz rectangular de 2 o más dimensiones       |
-| `T[][]`     | “Jagged”: array de arrays con longitudes libres |
-| `ArrayList` | Colección no genérica, boxing/unboxing          |
-| `List<T>`   | Colección genérica, dinámica y tipada           |
+**Arrays Multidimensionales (Matrices)**
 
-<details><summary>Ver más</summary>
+Son estructuras rectangulares (como una tabla o una rejilla) donde cada fila tiene la misma cantidad de columnas.
 
-- **Redimensionar**: `Array.Resize(ref numeros, 6);` cambia el tamaño (rellena con valores por defecto si crece).
-- **Inicializar**: `var a = new int[5];` todos elementos inicializan a 0.
-- **Índice y rango** (.NET Core+): `numeros[^1]` (último elemento), `numeros[1..3]` (subarray del índice 1 al 2)
-- **Colecciones avanzadas**: `Dictionary<TKey,TValue>`, `HashSet<T>`, `Queue<T>`, `Stack<T>`, etc.
-- **Conversión**: `list.ToArray()`, `array.ToList()` (LINQ)
-- **ArrayList**: En código moderno se prefiere `List<T>` por seguridad de tipos y rendimiento.
+```csharp
+// Declarar una matriz de 2 filas y 3 columnas
+var matriz = new int[2, 3] 
+{
+    { 1, 2, 3 }, 
+    { 4, 5, 6 }
+};
+
+// Acceder al elemento en la fila 1, columna 2
+Console.WriteLine($"Elemento [1, 2]: {matriz[1, 2]}"); // Salida: 6
+```
+
+**Arrays Irregulares (Jagged)**
+
+Son "arrays de arrays", donde cada array interno puede tener una longitud diferente, creando una estructura escalonada.
+
+```csharp
+// Declarar un array irregular con 3 arrays internos
+var irregular = new int[3][];
+irregular[0] = new int[] { 1, 2 };
+irregular[1] = new int[] { 3, 4, 5 };
+irregular[2] = new int[] { 6 };
+
+// Acceder al tercer elemento del segundo array interno
+Console.WriteLine($"Elemento [1][2]: {irregular[1][2]}"); // Salida: 5
+```
+| Tipo    | Descripción                                                        |
+| ---     | ------------------------------------------------------------------ |
+| `T[]`   | **Unidimensional:** Una sola fila de elementos.                    |
+| `T[,]`  | **Multidimensional:** Matriz rectangular con filas y columnas.     |
+| `T[][]` | **Irregular (Jagged):** Un array cuyos elementos son otros arrays. |
+
+
+<details> <summary>Ver más</summary>
+    
+- **Tamaño Fijo**: El tamaño de un array y sus dimensiones se establecen en su creación y no pueden cambiar. Redimensionar un array implica crear una nueva instancia y copiar los elementos, lo cual es una operación costosa.
+- **Inicialización**: Al crear un array con `new`, sus elementos se inicializan con el valor por defecto del tipo (ej: 0 para int, null para objetos, false para bool).
+- **Acceso**: En matrices, se usa una sola tupla de índices (`[fila, columna]`). En arrays irregulares, se usan múltiples corchetes para acceder a los arrays anidados (`[índice_externo][índice_interno]`).
+- **Uso**: Las matrices son ideales para estructuras de datos tabulares como tableros de ajedrez o imágenes. Los arrays irregulares son útiles cuando las sub-listas varían en tamaño, como almacenar los días de cada mes.
+</details>
+
+**Colecciones Genéricas: `List<T>`**
+
+Es la colección dinámica más utilizada. Ofrece flexibilidad para agregar o quitar elementos y garantiza la seguridad de tipos.
+
+```csharp
+// Crear una lista dinámica de enteros
+var numeros = new List<int> { 10, 20, 30 };
+
+// Agregar un nuevo elemento al final
+numeros.Add(40);
+
+// Quitar un elemento por su valor
+numeros.Remove(20);
+
+// Acceder a un elemento por su índice
+Console.WriteLine($"Primer número: {numeros[0]}"); // Salida: 10
+```
+
+**Listas Anidadas (Simulando Matrices)**
+
+Las colecciones como `List<T>` no tienen un concepto nativo de "multidimensionalidad" como los arrays. Sin embargo, se pueden anidar para lograr un comportamiento similar al de un array irregular, pero con tamaño dinámico.
+
+```csharp
+// Lista de listas para simular una estructura irregular
+var listaDeListas = new List<List<int>>
+{
+    new List<int> { 1, 2 },
+    new List<int> { 3, 4, 5 }
+};
+
+// Agregar una nueva "fila" (una nueva lista)
+listaDeListas.Add(new List<int> { 6, 7 });
+
+// Acceder a un elemento
+Console.WriteLine($"Elemento [1][2]: {listaDeListas[1][2]}"); // Salida: 5
+```
+
+<details> <summary>Ver más</summary>
+
+- **Ventajas**: A diferencia de los arrays, las listas pueden crecer y encogerse dinámicamente con `Add()`, `Remove()` y otros métodos.
+- **Simulación de Matriz**: Para simular una matriz rectangular con listas (`List<List<T>>`), es responsabilidad del programador asegurarse de que todas las listas internas tengan el mismo tamaño.
+- **Otras Colecciones Útiles**: `Dictionary<TKey, TValue>` (pares clave-valor), `HashSet<T>` (elementos únicos), `Queue<T>` (FIFO) y `Stack<T>` (LIFO).
+</details>
+
+**Iteración de Colecciones**
+
+Existen varias formas de recorrer los elementos de un array o una colección.
+
+```csharp
+var frutas = new List<string> { "Manzana", "Pera", "Naranja" };
+
+// 1. Bucle foreach (preferido por su simplicidad)
+foreach (var fruta in frutas)
+{
+    Console.WriteLine(fruta);
+}
+
+// 2. Bucle for (útil cuando se necesita el índice)
+for (var i = 0; i < frutas.Count; i++)
+{
+    Console.WriteLine($"Índice {i}: {frutas[i]}");
+}
+```
+
+<details> <summary><strong>Ver más sobre Iteración</strong></summary>
+    
+- **Iterar Matrices (`T[,]`)**: Se usan bucles anidados y el método `GetLength(dimensión)` para obtener el tamaño de cada dimensión.
+    ```csharp
+    var matriz = new int[,] { { 1, 2, 3 }, { 4, 5, 6 } };
+    for (int i = 0; i < matriz.GetLength(0); i++) // Dimensión 0: Filas
+    {
+        for (int j = 0; j < matriz.GetLength(1); j++) // Dimensión 1: Columnas
+        {
+            Console.Write(matriz[i, j] + " ");
+        }
+        Console.WriteLine();
+    }
+    ```
+- **Iterar Arrays Irregulares (`T[][]`)**: Se usa Length para el array exterior y luego Length para cada array interior.
+  ```csharp
+    var irregular = new int[][] 
+    {
+        new int[] { 1, 2 },
+        new int[] { 3, 4, 5 },
+    };
+    for (int i = 0; i < irregular.Length; i++)
+    {
+        for (int j = 0; j < irregular[i].Length; j++)
+        {
+            Console.Write(irregular[i][j] + " ");
+        }
+        Console.WriteLine();
+    }
+  ```
+- **`List<T>.ForEach()`**: Es una alternativa concisa a `foreach` que usa una expresión lambda: `frutas.ForEach(fruta => Console.WriteLine(fruta));`. No permite `break` ni `continue`.
 </details>
 
 <p align="right">
