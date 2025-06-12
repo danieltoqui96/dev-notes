@@ -2,9 +2,6 @@
 
 ## Índice
 
-<details>
-<summary><strong>Ver índice</strong></summary>
-
 - [Estructura de un Programa en C#](#estructura-de-un-programa-en-c)
 - [Tipos de datos](#tipos-de-datos)
 - [Conversiones de tipo](#conversiones-de-tipo)
@@ -16,7 +13,6 @@
 - [Arrays y Colecciones](#arrays-y-colecciones)
 - [Programación Orientada a Objetos](#programación-orientada-a-objetos)
 - [Otros conceptos útiles](#otros-conceptos-útiles)
-</details>
 
 ## Estructura de un Programa en C#
 
@@ -44,13 +40,13 @@ namespace MiAplicacion
 
 A continuación se detalla el propósito de cada componente clave de esta estructura.
 
-| Componente | Ejemplo | Propósito |
-| ---------- | ------- | --------- |
-| Directiva `using` | `using System;` | Importa un namespace para poder usar sus clases (como `Console`) sin escribir su nombre completo (`System.Console`). |
-| `namespace` | `namespace MiAplicacion` | Contenedor lógico para organizar el código y evitar colisiones de nombres entre clases. |
-| `class` | `class Program` | Plantilla para crear objetos. Todo el código ejecutable en C# debe estar dentro de una clase. |
-| Método `Main` | `static void Main(...)` | El punto de entrada del programa. Es el primer método que se ejecuta al iniciar la aplicación. |
-| Parámetros `Main` | `(string[] args)` | Es un array de strings que permite recibir argumentos pasados por la línea de comandos al ejecutar el programa. |
+Componente | Ejemplo | Propósito
+---------- | ------- | ---------
+Directiva `using` | `using System;` | Importa un namespace para poder usar sus clases (como `Console`) sin escribir su nombre completo (`System.Console`).
+`namespace` | `namespace MiAplicacion` | Contenedor lógico para organizar el código y evitar colisiones de nombres entre clases.
+`class` | `class Program` | Plantilla para crear objetos. Todo el código ejecutable en C# debe estar dentro de una clase.
+Método `Main` | `static void Main(...)` | El punto de entrada del programa. Es el primer método que se ejecuta al iniciar la aplicación.
+Parámetros `Main` | `(string[] args)` | Es un array de strings que permite recibir argumentos pasados por la línea de comandos al ejecutar el programa.
 
 <details> <summary><strong>Ver la versión moderna (Top-Level Statements)</strong></summary>
 
@@ -136,14 +132,14 @@ var saludoFormateado = saludo.Trim().ToUpper(); // " HOLA MUNDO " -> "HOLA MUNDO
 Console.WriteLine($"Original: '{saludo}', Formateado: '{saludoFormateado}'");
 ```
 
-| Método Común | Descripción |
-| ------------ | ----------- |
-| `string.IsNullOrEmpty(str)` | Comprueba si una cadena es `null` o vacía (`""`). |
-| `string.IsNullOrWhiteSpace(str)` | Comprueba si es `null`, vacía o solo contiene espacios. |
-| `.ToUpper()` / `.ToLower()` | Devuelve una nueva cadena en mayúsculas o minúsculas. |
-| `.Trim()` | Devuelve una nueva cadena sin espacios al inicio y al final. |
-| `.Split(separador)` | Divide la cadena en un array de subcadenas. |
-| `.Contains(subcadena)` | Comprueba si la cadena contiene un texto específico. |
+Método Común | Descripción
+------------ | -----------
+`string.IsNullOrEmpty(str)` | Comprueba si una cadena es `null` o vacía (`""`).
+`string.IsNullOrWhiteSpace(str)` | Comprueba si es `null`, vacía o solo contiene espacios.
+`.ToUpper()` / `.ToLower()` | Devuelve una nueva cadena en mayúsculas o minúsculas.
+`.Trim()` | Devuelve una nueva cadena sin espacios al inicio y al final.
+`.Split(separador)` | Divide la cadena en un array de subcadenas.
+`.Contains(subcadena)` | Comprueba si la cadena contiene un texto específico.
 
 <details> <summary><strong>Ver más sobre Tipos y Cadenas</strong></summary>
 
@@ -154,14 +150,14 @@ Console.WriteLine($"Original: '{saludo}', Formateado: '{saludoFormateado}'");
   ```
 - **Tabla de Tipos de Datos Comunes**:
 
-| Tipo | Uso Común | Ejemplo | Familia |
-| ---- | --------- | ------- | ------- |
-| `int` | Números enteros. | `10`, `-50` | Valor |
-| `double` | Números con decimales. Es el tipo por defecto. | `3.14`, `-0.01` | Valor |
-| `decimal` | Alta precisión para cálculos financieros. | `9.99m` (sufijo `m`) | Valor |
-| `bool` | Valores lógicos de verdadero o falso. | `true`, `false` | Valor |
-| `char` | Un solo carácter de texto. | `'A'` (comillas simples) | Valor |
-| `string` | Secuencias de texto. | `"Hola Mundo"` | Referencia |
+Tipo | Uso Común | Ejemplo | Familia
+---- | --------- | ------- | -------
+`int` | Números enteros. | `10`, `-50` | Valor
+`double` | Números con decimales. Es el tipo por defecto. | `3.14`, `-0.01` | Valor
+`decimal` | Alta precisión para cálculos financieros. | `9.99m` (sufijo `m`) | Valor
+`bool` | Valores lógicos de verdadero o falso. | `true`, `false` | Valor
+`char` | Un solo carácter de texto. | `'A'` (comillas simples) | Valor
+`string` | Secuencias de texto. | `"Hola Mundo"` | Referencia
 
 </details>
 
@@ -169,43 +165,81 @@ Console.WriteLine($"Original: '{saludo}', Formateado: '{saludoFormateado}'");
 
 ## Conversiones de tipo
 
-Transformaciones comunes entre números, cadenas y fechas
+Dado que C# es un lenguaje de tipado estático, una variable no puede cambiar de tipo una vez declarada. Sin embargo, a menudo es necesario convertir un valor de un tipo a otro. Estas operaciones se conocen como conversiones o "casting".
+
+**1. Conversiones Implícitas (Seguras)**
+
+Ocurren automáticamente cuando el compilador sabe que la conversión es segura y no habrá pérdida de datos. Esto sucede típicamente al convertir de un tipo numérico más pequeño a uno más grande.
 
 ```csharp
-// 1. Números: implícita y explícita
-int    a = 10;
-long   b = a;           // implícita widening
-double d = 9.7;
-int    i = (int)d;      // explícita narrowing
+int miEntero = 123;
+long miLong = miEntero; // Conversión implícita de int a long, es seguro.
 
-// 2. De string a valor
-if (int.TryParse("123", out int v))
-    Console.WriteLine(v);               // 123
-DateTime dt = DateTime.Parse("2025-05-24");
-
-// 3. A string
-string s1 = i.ToString();
-string s2 = dt.ToString("yyyy-MM-dd");
-
+double miDouble = miEntero; // Conversión implícita de int a double.
 ```
 
-| Origen                | Destino  | Método                         |
-| --------------------- | -------- | ------------------------------ |
-| `int` → `long`        | numérico | implícita                      |
-| `double` → `int`      | numérico | explícita `(int)d`             |
-| `string` → `int`      | entero   | `int.Parse` / `int.TryParse`   |
-| `string` → `DateTime` | fecha    | `DateTime.Parse` / `TryParse`  |
-| cualquier tipo        | `string` | `ToString()` / `ToString(fmt)` |
+La jerarquía de conversiones implícitas seguras sigue un orden lógico:
 
-<details><summary>Ver más</summary>
+`byte` → `short` → `int` → `long` → `float` → `double`
 
-- **Usa TryParse** para evitar excepciones en formatos inválidos.
-- **Parse** lanza excepción si falla. - Para enums: `Enum.TryParse<T>(...)`.
+**2. Conversiones Explícitas (Casting)**
+
+Se deben solicitar manualmente cuando existe el riesgo de perder información, como al convertir de un tipo más grande a uno más pequeño. Se utiliza el operador de "cast" `(tipo)` para forzar la conversión.
+
+```csharp
+double miDouble = 123.45;
+// int miEntero = miDouble; // Error de compilación: no se puede convertir implícitamente.
+
+int miEntero = (int)miDouble; // Conversión explícita (casting).
+Console.WriteLine(miEntero);  // Salida: 123 (se pierde la parte decimal).
+```
+
+**3. Conversiones con Clases de Ayuda (`Parse`, `TryParse`, `Convert`)**
+
+Para convertir entre tipos no compatibles, como un `string` a un `int`, no se puede usar el casting. En su lugar, se utilizan métodos especializados.
+
+**`TryParse` (Método recomendado y seguro)**
+
+Intenta convertir un `string` a otro tipo. Si tiene éxito, devuelve `true` y el valor convertido; si falla, devuelve `false` y no lanza una excepción. Es ideal para manejar entradas de usuario o datos externos.
+
+```csharp
+string textoNumero = "123";
+if (int.TryParse(textoNumero, out int numeroConvertido))
+{
+    Console.WriteLine($"Conversión exitosa: {numeroConvertido}");
+}
+else
+{
+    Console.WriteLine("La cadena no es un número válido.");
+}
+```
+
+**`ToString()` (Conversión a string)**
+
+Prácticamente cualquier variable puede convertirse a su representación en `string` usando el método `.ToString()`.
+
+```csharp
+int numero = 42;
+string textoDelNumero = numero.ToString(); // "42"
+
+DateTime fecha = DateTime.Now;
+string textoFecha = fecha.ToString("yyyy-MM-dd"); // "2025-06-12"
+```
+
+Situación | Método Recomendado | Ejemplo
+--------- | ------------------ | -------
+De tipo numérico menor a mayor | Implícita (automática) | `long l = mi_entero;`
+De tipo numérico mayor a menor | Explícita (Casting) | `int i = (int)mi_double;`
+De string a un tipo (`int`, `double`, etc.) | `TryParse` | `int.TryParse(s, out int i)`
+De cualquier tipo a `string` | `.ToString()` | `mi_numero.ToString();`
+
+<details> <summary><strong>Ver más sobre Conversiones</strong></summary>
+
+- **`Parse` vs. `TryParse`**: El método `int.Parse("123")` hace lo mismo que `TryParse`, pero si la conversión falla, **lanza una excepción** que detiene el programa si no se maneja. Usa `Parse` solo cuando estés 100% seguro de que el formato del `string` es correcto.
+- **Clase `System.Convert`**: Proporciona un conjunto de métodos para conversiones, como `Convert.ToInt32()`, `Convert.ToDouble()`, etc. Una ventaja es que `Convert.ToInt32(null)` devuelve `0`, mientras que `int.Parse(null)` lanza una excepción. Es una alternativa robusta para muchos escenarios.
 </details>
 
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
+<p align="right"> <a href="#índice">⬆️</a> </p>
 
 ## Variables
 
