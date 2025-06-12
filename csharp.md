@@ -20,7 +20,11 @@
 
 ## Estructura de un Programa en C#
 
-Todo programa en C# reside en un namespace y una clase; el método `Main` es su punto de entrada.
+Todo programa en C# sigue una estructura básica que define su punto de entrada y organización. Con las versiones modernas del lenguaje, esta estructura se ha simplificado notablemente.
+
+**Estructura Clásica**
+
+Esta es la estructura tradicional que encontrará en muchos proyectos y tutoriales. Define explícitamente todos los contenedores necesarios.
 
 ```csharp
 using System;
@@ -31,16 +35,36 @@ namespace MiAplicacion
     {
         static void Main(string[] args)
         {
+            // Este es el punto de entrada del programa
             Console.WriteLine("¡Hola, C#!");
         }
     }
 }
 ```
 
-<details>
-<summary>Ver más</summary>
+A continuación se detalla el propósito de cada componente clave de esta estructura.
 
-A partir de C# 9, es posible escribir un programa _sin_ definir explícitamente la clase `Program` ni el método `Main` (característica conocida como _top-level statements_). El código puede escribirse directamente en el archivo fuente, y el compilador generará automáticamente un `Main` implícito en tiempo de compilación.
+| Componente | Ejemplo | Propósito |
+| ---------- | ------- | --------- |
+| Directiva `using` | `using System;` | Importa un namespace para poder usar sus clases (como `Console`) sin escribir su nombre completo (`System.Console`). |
+| `namespace` | `namespace MiAplicacion` | Contenedor lógico para organizar el código y evitar colisiones de nombres entre clases. |
+| `class` | `class Program` | Plantilla para crear objetos. Todo el código ejecutable en C# debe estar dentro de una clase. |
+| Método `Main` | `static void Main(...)` | El punto de entrada del programa. Es el primer método que se ejecuta al iniciar la aplicación. |
+| Parámetros `Main` | `(string[] args)` | Es un array de strings que permite recibir argumentos pasados por la línea de comandos al ejecutar el programa. |
+
+<details> <summary><strong>Ver la versión moderna (Top-Level Statements)</strong></summary>
+
+A partir de C# 9, se puede omitir toda la estructura ceremonial (`namespace`, `class`, `Main`). El compilador la genera automáticamente por detrás, simplificando enormemente el código.
+
+El mismo programa anterior se puede escribir simplemente así:
+
+```csharp
+using System;
+
+Console.WriteLine("Hola, C#!");
+```
+
+Esta sintaxis es ideal para programas pequeños, scripts, y especialmente para quienes están aprendiendo, ya que les permite enfocarse directamente en la lógica sin distracciones.
 
 </details>
 
