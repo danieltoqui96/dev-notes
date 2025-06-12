@@ -237,45 +237,90 @@ De cualquier tipo a `string` | `.ToString()` | `mi_numero.ToString();`
 
 - **`Parse` vs. `TryParse`**: El método `int.Parse("123")` hace lo mismo que `TryParse`, pero si la conversión falla, **lanza una excepción** que detiene el programa si no se maneja. Usa `Parse` solo cuando estés 100% seguro de que el formato del `string` es correcto.
 - **Clase `System.Convert`**: Proporciona un conjunto de métodos para conversiones, como `Convert.ToInt32()`, `Convert.ToDouble()`, etc. Una ventaja es que `Convert.ToInt32(null)` devuelve `0`, mientras que `int.Parse(null)` lanza una excepción. Es una alternativa robusta para muchos escenarios.
+
 </details>
 
 <p align="right"> <a href="#índice">⬆️</a> </p>
 
 ## Variables
 
-Declaración e inicialización de variables; `var` infiere tipo.
+Las variables son espacios en memoria con un nombre que se usan para almacenar datos. En C#, toda variable debe ser declarada con un tipo específico antes de ser utilizada.
+
+**1. Declaración de Variables**
+
+La práctica moderna recomienda usar la inferencia de tipo con `var` siempre que el tipo de dato sea evidente a partir del valor asignado.
 
 ```csharp
-int  edad = 30;       // declaración y asignación
-var nombre = "Ana";   // infiere string
-float altura;
-altura = 1.75f;       // asignación posterior
+// Declaración explícita: se especifica el tipo.
+string nombre = "Ana";
+
+// Inferencia de tipo con 'var': el compilador deduce el tipo.
+var edad = 30; // El compilador infiere que es un 'int'.
+
+// Es importante recalcar que 'var' no crea una variable dinámica.
+// El tipo se fija en tiempo de compilación y no puede cambiar.
+// edad = "treinta"; // <-- Esto generaría un error de compilación.
 ```
 
-<details><summary>Ver más</summary>
+Método | Cuándo usarlo
+------ | -------------
+Explícito (`int x`) | Cuando el tipo no es obvio por el valor asignado o para mejorar la legibilidad en APIs públicas.
+`var` | Cuando el tipo es evidente (ej: `var x = new List<string>()`). Promueve un código más limpio y menos repetitivo.
 
-- Variables locales deben inicializarse antes de usar.
-- Campos de clase se inicializan por defecto (0, null, false).
+**2. Ámbito (Scope) de las Variables**
 
-**Constantes vs readonly**
-
-|            | `const`             | `readonly`                    |
-| ---------- | ------------------- | ----------------------------- |
-| Asignación | Solo en declaración | Declaración o constructor     |
-| Tiempo     | Compilación         | Ejecución                     |
-| Ámbito     | Siempre estático    | Instancia o estático opcional |
+El ámbito define dónde "vive" una variable y desde qué partes del código se puede acceder a ella.
+- **Campos de Clase (Fields)**: Se declaran directamente dentro de una clase. Son accesibles desde cualquier método de esa clase y se inicializan con valores por defecto (`0`, `null`, `false`).
+- **Variables Locales**: Se declaran dentro de un método o un bloque de código (`{...}`). Solo existen dentro de ese bloque y **deben ser inicializadas explícitamente** antes de usarse.
 
 ```csharp
-const double PI = 3.1416;
-readonly int  max;
-public Clase(int valor) { max = valor; }
+public class MiClase
+{
+    private int _contador; // Este es un CAMPO. Su ámbito es toda la clase.
+
+    public void MiMetodo()
+    {
+        string mensaje = "Hola"; // Esta es una VARIABLE LOCAL. Su ámbito es MiMetodo.
+
+        if (_contador >= 0)
+        {
+            bool esValido = true; // Esta VARIABLE LOCAL solo existe dentro del 'if'.
+        }
+        // Console.WriteLine(esValido); // <-- Error: esValido no existe en este ámbito.
+    }
+}
 ```
+
+**3. Variables Constantes e Inmutables**
+
+C# proporciona modificadores para crear variables cuyo valor no puede cambiar después de su inicialización.
+- **`const`**: El valor debe ser conocido en tiempo de compilación y no puede cambiar nunca. Es implícitamente `static`.
+- **`readonly`**: El valor puede ser asignado en la declaración o en el constructor de la clase. Puede ser de instancia o `static`.
+
+```csharp
+public class Configuracion
+{
+    public const double PI = 3.14159; // Valor constante, conocido al compilar.
+    public readonly int MaxIntentos;   // Valor inmutable, establecido en tiempo de ejecución.
+
+    public Configuracion(int maxIntentos)
+    {
+        MaxIntentos = maxIntentos; // Se puede asignar en el constructor.
+    }
+}
+```
+
+<details> <summary><strong>Ver tabla comparativa: `const` vs. `readonly`</strong></summary>
+
+Característica | const | readonly
+-------------- | ----- | --------
+Asignación | Solo en la declaración. | En la declaración o en el constructor.
+Tiempo | Valor fijado en tiempo de compilación. | Valor fijado en tiempo de ejecución.
+Ámbito | Siempre estático (pertenece a la clase). | Puede ser de instancia o estático.
 
 </details>
 
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
+<p align="right"> <a href="#índice">⬆️</a> </p>
 
 ## Operadores
 
