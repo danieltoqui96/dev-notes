@@ -23,6 +23,7 @@
 Todo programa en C# sigue una estructura básica que define su punto de entrada y organización. Con las versiones modernas del lenguaje, esta estructura se ha simplificado notablemente.
 
 **Estructura Clásica**
+
 Esta es la estructura tradicional que encontrará en muchos proyectos y tutoriales. Define explícitamente todos los contenedores necesarios.
 
 ```csharp
@@ -71,33 +72,28 @@ Esta sintaxis es ideal para programas pequeños, scripts, y especialmente para q
 
 ## Tipos de datos
 
-En C#, las variables deben tener un tipo definido que determina qué clase de datos pueden almacenar. La declaración es el primer paso para usar una variable.
+En C#, las variables deben tener un tipo definido que determina qué clase de datos pueden almacenar y cómo se comportan.
 
 **Declaración de Variables**
-Existen dos formas principales de declarar una variable en C# moderno.
+
+Es el primer paso para usar una variable. La práctica moderna favorece la inferencia de tipo con var cuando el tipo es obvio.
 
 ```csharp
-// 1. Declaración explícita: especificas el tipo de dato.
+// 1. Declaración explícita: se especifica el tipo de dato.
 int edad = 30;
-string nombre = "Ana";
 
-// 2. Inferencia de tipo con 'var': el compilador deduce el tipo en la compilación.
-var altura = 1.75;      // El compilador infiere que es un 'double'.
-var estaActivo = true;  // El compilador infiere que es un 'bool'.
+// 2. Inferencia de tipo con 'var': el compilador deduce el tipo.
+var nombre = "Ana";       // El compilador infiere que es un 'string'.
+var estaActivo = true;   // El compilador infiere que es un 'bool'.
 ```
 
-| Método | Descripción | Cuándo usarlo |
-| ------ | ----------- | ------------- |
-| Explícito | `tipo nombre = valor;` | Útil cuando la claridad del tipo es más importante o el tipo no es obvio. |
-| `var` | `var nombre = valor;` | Práctica común y recomendada cuando el tipo es evidente por el valor asignado. Promueve un código más limpio. |
-
 **Tipos de Valor vs. Tipos de Referencia**
-Esta distinción es fundamental en C# y define cómo se almacenan y comportan los datos.
-- **Tipos de Valor (`int`, `double`, `bool`, `struct`)**: Almacenan el dato directamente. Al pasarlos a un método, se entrega una copia del valor.
-- **Tipos de Referencia (`string`, `array`, `List<T>`, `class`)**: Almacenan una **referencia** (una dirección de memoria) al lugar donde se encuentra el objeto. Al pasarlos a un método, se entrega una copia de esa referencia, por lo que el método puede modificar el objeto original.
+
+Esta distinción es fundamental para entender cómo se comporta el programa.
+- **Tipos de Valor (`int`, `double`, `bool`, `struct`)**: Almacenan el dato directamente. Al pasarlos a un método, el método recibe una **copia**.
+- **Tipos de Referencia (`string`, `array`, `List<T>`)**: Almacenan una **referencia** (una dirección de memoria) al objeto. Un método puede usar esta referencia para modificar el objeto original.
 
 ```csharp
-// Ejemplo práctico de la diferencia de comportamiento
 void ModificarDatos(int numeroCopia, List<int> listaOriginal)
 {
     numeroCopia = 100;      // Solo modifica la copia local.
@@ -112,70 +108,64 @@ Console.WriteLine($"Número original: {miNumero}");         // Salida: 10 (no ca
 Console.WriteLine($"Elementos en lista: {miLista.Count}"); // Salida: 2 (sí cambió)
 ```
 
-**Valores Nulos y Tipos Nulables (`null` y `?`)**
-`null` representa la ausencia de un valor. Comprenderlo es clave para evitar la excepción más común: `NullReferenceException`.
+**Cadenas de Texto (`string`)**
 
-Los tipos de referencia pueden ser `null`, pero los de valor no. Para permitir que un tipo de valor sea nulo, se le añade un `?`.
+Es un tipo de referencia para manipular texto. Su característica más importante es que es **inmutable**: cualquier operación de modificación no altera la cadena original, sino que devuelve una nueva cadena con el resultado.
 
 ```csharp
-string nombre = null; // Correcto, es un tipo de referencia.
-// int edad = null;   // Error de compilación, 'int' no puede ser nulo por defecto.
-
-int? edad = null;    // Correcto. 'edad' es ahora un "entero nulable".
-
-// Antes de usar un objeto que podría ser nulo, siempre hay que comprobarlo.
-if (nombre != null)
-{
-    Console.WriteLine(nombre.ToUpper());
-}
+// Declaración básica de una cadena de texto
+string saludo = "Hola, mundo!";
+var nombreUsuario = "Ana"; // También se puede usar 'var'
 ```
 
-<details> <summary><strong>Ver tabla de tipos de datos comunes</strong></summary>
+**Interpolación de Cadenas**
 
-| Tipo | Uso Común | Ejemplo |
-| ---- | --------- | ------- |
-| int | Números enteros. | `10`, `-50` |
-| double | Números con decimales. Es el tipo por defecto. | `3.14`, `-0.01` |
-| decimal | Alta precisión para cálculos financieros. | `9.99m` (sufijo `m`) |
-| bool | Valores lógicos de verdadero o falso. | `true`, `false` |
-| char | Un solo carácter de texto. | `'A'` (comillas simples) |
-| string | Secuencias de texto. | `"Hola Mundo"` (comillas dobles) |
+Es la forma moderna y recomendada para construir cadenas. Se usa el prefijo `$` y las variables se encierran en llaves `{}`.
+
+```csharp
+var lenguaje = "C#";
+var version = 11;
+
+// Forma moderna y recomendada
+var mensaje = $"Bienvenido a {lenguaje} {version}!";
+Console.WriteLine(mensaje); // Salida: Bienvenido a C# 11!
+
+// Los métodos de manipulación devuelven una nueva cadena
+var saludo = " hola mundo ";
+var saludoFormateado = saludo.Trim().ToUpper(); // " HOLA MUNDO " -> "HOLA MUNDO"
+Console.WriteLine($"Original: '{saludo}', Formateado: '{saludoFormateado}'");
+```
+
+| Método Común | Descripción |
+| ------------ | ----------- |
+| `string.IsNullOrEmpty(str)` | Comprueba si una cadena es `null` o vacía (`""`). |
+| `string.IsNullOrWhiteSpace(str)` | Comprueba si es `null`, vacía o solo contiene espacios. |
+| `.ToUpper()` / `.ToLower()` | Devuelve una nueva cadena en mayúsculas o minúsculas. |
+| `.Trim()` | Devuelve una nueva cadena sin espacios al inicio y al final. |
+| `.Split(separador)` | Divide la cadena en un array de subcadenas. |
+| `.Contains(subcadena)` | Comprueba si la cadena contiene un texto específico. |
+
+<details> <summary><strong>Ver más sobre Tipos y Cadenas</strong></summary>
+
+- **Valores Nulos (`null`) y Tipos Nulables (`?`)**: `null` representa la ausencia de valor. Los tipos de referencia pueden ser `null`, pero los de valor no. Para permitir que un tipo de valor sea nulo, se le añade un `?` (ej: `int? edad = null;`). Es fundamental comprobar si una variable es nula antes de usarla para evitar errores.
+- **Strings Literales (`@`)**: Para escribir texto que contiene muchos caracteres de escape, como rutas de archivo, se puede usar el prefijo `@`. Esto le dice al compilador que ignore las secuencias de escape.
+  ```csharp
+  string ruta = @"C:\Usuarios\MiUsuario\Documentos"; // Más limpio que "C:\\Usuarios\\..."
+  ```
+- **Tabla de Tipos de Datos Comunes**:
+
+| Tipo | Uso Común | Ejemplo | Familia |
+| ---- | --------- | ------- | ------- |
+| `int` | Números enteros. | `10`, `-50` | Valor |
+| `double` | Números con decimales. Es el tipo por defecto. | `3.14`, `-0.01` | Valor |
+| `decimal` | Alta precisión para cálculos financieros. | `9.99m` (sufijo `m`) | Valor |
+| `bool` | Valores lógicos de verdadero o falso. | `true`, `false` | Valor |
+| `char` | Un solo carácter de texto. | `'A'` (comillas simples) | Valor |
+| `string` | Secuencias de texto. | `"Hola Mundo"` | Referencia |
 
 </details>
 
 <p align="right"> <a href="#índice">⬆️</a> </p>
-
-### Cadenas de texto
-
-Manipulación de `string` con métodos esenciales.
-
-```csharp
-string s = "  Hola C#  ";
-Console.WriteLine(s.Trim().ToUpper()); // "HOLA C#"
-Console.WriteLine(s.Substring(2,4));   // "Hola"
-```
-
-| Método         | Descripción             |
-| -------------- | ----------------------- |
-| `Trim()`       | Quita espacios extremos |
-| `ToUpper()`    | Mayúsculas              |
-| `ToLower()`    | Minúsculas              |
-| `Contains()`   | Busca subcadena         |
-| `Replace(a,b)` | Reemplaza texto         |
-
-<details><summary>Ver más</summary>
-
-**Tipos no primitivos** (_reference types_): Clases, arrays, cadenas, `object`, genéricos, `enum`, `struct`, `interface`.
-
-**Valor vs referencia**:
-
-- Tipos de valor (`int`, `struct`): almacenan dato directamente.
-- Tipos de referencia (`string`, `List<T>`): almacenan puntero al objeto.
-</details>
-
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
 
 ## Conversiones de tipo
 
