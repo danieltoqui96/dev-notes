@@ -23,7 +23,6 @@
 Todo programa en C# sigue una estructura básica que define su punto de entrada y organización. Con las versiones modernas del lenguaje, esta estructura se ha simplificado notablemente.
 
 **Estructura Clásica**
-
 Esta es la estructura tradicional que encontrará en muchos proyectos y tutoriales. Define explícitamente todos los contenedores necesarios.
 
 ```csharp
@@ -68,37 +67,83 @@ Esta sintaxis es ideal para programas pequeños, scripts, y especialmente para q
 
 </details>
 
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
+<p align="right"> <a href="#índice">⬆️</a> </p>
 
 ## Tipos de datos
 
-C# ofrece tipos primitivos para valores simples y tipos por referencia para estructuras más complejas.
+En C#, las variables deben tener un tipo definido que determina qué clase de datos pueden almacenar. La declaración es el primer paso para usar una variable.
+
+**Declaración de Variables**
+Existen dos formas principales de declarar una variable en C# moderno.
 
 ```csharp
-// Primitivos
-int    numero    = 42;
-double real      = 3.14;
-bool   activo    = true;
-char   letra     = 'A';
+// 1. Declaración explícita: especificas el tipo de dato.
+int edad = 30;
+string nombre = "Ana";
 
-// Referencia
-string texto    = "Hola";
-int[]  arreglo  = {1,2,3};
+// 2. Inferencia de tipo con 'var': el compilador deduce el tipo en la compilación.
+var altura = 1.75;      // El compilador infiere que es un 'double'.
+var estaActivo = true;  // El compilador infiere que es un 'bool'.
 ```
 
-| Tipo      | Tamaño   | Rango / Notas                  |
-| --------- | -------- | ------------------------------ |
-| `byte`    | 8 bits   | 0 a 255                        |
-| `short`   | 16 bits  | -32 768 a 32 767               |
-| `int`     | 32 bits  | -2 147 483 648 a 2 147 483 647 |
-| `long`    | 64 bits  | ‘L’ al final                   |
-| `float`   | 32 bits  | sufijo ‘f’                     |
-| `double`  | 64 bits  | predeterminado para decimales  |
-| `decimal` | 128 bits | sufijo ‘m’, alta precisión     |
-| `char`    | 16 bits  | Un solo carácter Unicode       |
-| `bool`    | 1 bit    | true o false                   |
+| Método | Descripción | Cuándo usarlo |
+| ------ | ----------- | ------------- |
+| Explícito | `tipo nombre = valor;` | Útil cuando la claridad del tipo es más importante o el tipo no es obvio. |
+| `var` | `var nombre = valor;` | Práctica común y recomendada cuando el tipo es evidente por el valor asignado. Promueve un código más limpio. |
+
+**Tipos de Valor vs. Tipos de Referencia**
+Esta distinción es fundamental en C# y define cómo se almacenan y comportan los datos.
+- **Tipos de Valor (`int`, `double`, `bool`, `struct`)**: Almacenan el dato directamente. Al pasarlos a un método, se entrega una copia del valor.
+- **Tipos de Referencia (`string`, `array`, `List<T>`, `class`)**: Almacenan una **referencia** (una dirección de memoria) al lugar donde se encuentra el objeto. Al pasarlos a un método, se entrega una copia de esa referencia, por lo que el método puede modificar el objeto original.
+
+```csharp
+// Ejemplo práctico de la diferencia de comportamiento
+void ModificarDatos(int numeroCopia, List<int> listaOriginal)
+{
+    numeroCopia = 100;      // Solo modifica la copia local.
+    listaOriginal.Add(100); // Modifica el objeto original.
+}
+
+var miNumero = 10;
+var miLista = new List<int> { 10 };
+ModificarDatos(miNumero, miLista);
+
+Console.WriteLine($"Número original: {miNumero}");         // Salida: 10 (no cambió)
+Console.WriteLine($"Elementos en lista: {miLista.Count}"); // Salida: 2 (sí cambió)
+```
+
+**Valores Nulos y Tipos Nulables (`null` y `?`)**
+`null` representa la ausencia de un valor. Comprenderlo es clave para evitar la excepción más común: `NullReferenceException`.
+
+Los tipos de referencia pueden ser `null`, pero los de valor no. Para permitir que un tipo de valor sea nulo, se le añade un `?`.
+
+```csharp
+string nombre = null; // Correcto, es un tipo de referencia.
+// int edad = null;   // Error de compilación, 'int' no puede ser nulo por defecto.
+
+int? edad = null;    // Correcto. 'edad' es ahora un "entero nulable".
+
+// Antes de usar un objeto que podría ser nulo, siempre hay que comprobarlo.
+if (nombre != null)
+{
+    Console.WriteLine(nombre.ToUpper());
+}
+```
+
+<details> <summary><strong>Ver tabla de tipos de datos comunes</strong></summary>
+
+| Tipo | Uso Común | Ejemplo |
+| ---- | --------- | ------- |
+| int | Números enteros. | `10`, `-50` |
+| double | Números con decimales. Es el tipo por defecto. | `3.14`, `-0.01` |
+| decimal | Alta precisión para cálculos financieros. | `9.99m` (sufijo `m`) |
+| bool | Valores lógicos de verdadero o falso. | `true`, `false` |
+| char | Un solo carácter de texto. | `'A'` (comillas simples) |
+| string | Secuencias de texto. | `"Hola Mundo"` (comillas dobles) |
+
+</details>
+
+<p align="right"> <a href="#índice">⬆️</a> </p>
 
 ### Cadenas de texto
 
