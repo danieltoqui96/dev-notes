@@ -310,7 +310,7 @@ public class Configuracion
 }
 ```
 
-<details> <summary><strong>Ver tabla comparativa: `const` vs. `readonly`</strong></summary>
+<details> <summary><strong>Ver tabla comparativa: const vs. readonly</strong></summary>
 
 Característica | const | readonly
 -------------- | ----- | --------
@@ -324,36 +324,98 @@ Tiempo | Valor fijado en tiempo de compilación. | Valor fijado en tiempo de eje
 
 ## Operadores
 
-Permiten realizar cálculos, comparaciones y lógica en expresiones.
+Los operadores son símbolos que le indican al compilador que realice operaciones matemáticas, lógicas o de manipulación de bits. C# cuenta con un rico conjunto de operadores que se agrupan en diferentes categorías.
+
+**1. Operadores Aritméticos**
+
+Se utilizan para realizar operaciones matemáticas básicas.
+
+```csharp
+int a = 10;
+int b = 3;
+
+Console.WriteLine($"Suma: {a + b}");         // 13
+Console.WriteLine($"Resta: {a - b}");        // 7
+Console.WriteLine($"Multiplicación: {a * b}");// 30
+Console.WriteLine($"División: {a / b}");      // 3 (división entera)
+Console.WriteLine($"Módulo: {a % b}");        // 1 (resto de la división)
+
+// Operadores de incremento y decremento
+int contador = 5;
+contador++; // contador ahora es 6
+contador--; // contador vuelve a ser 5
+```
+
+**2. Operadores de Asignación**
+
+Se usan para asignar un valor a una variable. El más simple es `=`, pero existen versiones compuestas para abreviar operaciones.
 
 ```csharp
 int x = 10;
-x += 5;
-Console.WriteLine(x);         // 15
-Console.WriteLine(x != 0);    // True
-bool dentroRango = (x > 0 && x < 20);
-Console.WriteLine(dentroRango ? "Dentro de rango" : "Fuera de rango");  // Dentro de rango
+
+x += 5; // Equivalente a: x = x + 5; (x ahora es 15)
+x -= 3; // Equivalente a: x = x - 3; (x ahora es 12)
+x *= 2; // Equivalente a: x = x * 2; (x ahora es 24)
+x /= 4; // Equivalente a: x = x / 4; (x ahora es 6)
 ```
 
-| Categoría   | Operadores              | Ejemplo          |
-| ----------- | ----------------------- | ---------------- |
-| Aritméticos | `+`, `-`, `*`, `/`, `%` | `a + b`          |
-| Asignación  | `=`, `+=`, `-=` …       | `x += 5`         |
-| Comparación | `==`, `!=`, `>`, `<`…   | `a >= b`         |
-| Lógicos     | `&&`, `\|\|`, `!`       | `a && b`         |
-| Incremento  | `++`, `--`              | `i++`            |
-| Ternario    | `? :`                   | `x>0? "sí":"no"` |
+**3. Operadores de Comparación y Lógicos**
 
-<details><summary>Ver más</summary>
+Se utilizan para comparar valores y combinar condiciones lógicas, resultando en un valor booleano (`true` o `false`).
 
-- **Operador condicional nulo** `?.`: si el operando izquierdo es `null`, la expresión completa devuelve `null` (en lugar de arrojar error).
-- **Coalescencia nula** `??:` devuelve el operando derecho si el izquierdo es `null`.
-- **Asignación nula** `??=`: asigna el operando derecho a la variable izquierda solo si esta es `null`.
+```csharp
+int edad = 20;
+bool tieneLicencia = true;
+
+// Operadores de comparación
+Console.WriteLine($"¿Es mayor de edad? {edad >= 18}"); // true
+
+// Operadores lógicos
+if (edad >= 18 && tieneLicencia)
+{
+    Console.WriteLine("Puede conducir.");
+}
+```
+
+**4. Operadores para el Manejo de Nulos (Null-handling)**
+
+Son herramientas modernas y esenciales para escribir código seguro y conciso al trabajar con variables que podrían ser `null`.
+- **`?.` (Operador condicional nulo)**: Permite acceder a miembros de un objeto solo si el objeto no es `null`. Si es `null`, la expresión completa devuelve `null` en lugar de lanzar una `NullReferenceException`.
+- **`??` (Operador de coalescencia nula)**: Proporciona un valor por defecto si la variable a su izquierda es `null`.
+
+```csharp
+List<string> nombres = null;
+
+// Evita una excepción al intentar acceder a 'Count'
+int cantidad = nombres?.Count ?? 0; // Si nombres es null, usa 0
+
+Console.WriteLine($"Cantidad de nombres: {cantidad}"); // Salida: 0
+```
+
+**5. Operador Ternario (`? :`)**
+
+Es una forma compacta de escribir una estructura `if-else` que asigna un valor a una variable.
+
+```chasrp
+int temperatura = 15;
+string estado = (temperatura > 25) ? "Caluroso" : "Agradable";
+
+Console.WriteLine($"El clima está: {estado}"); // Salida: Agradable
+```
+
+<details> <summary><strong>Ver detalles y diferencias importantes</strong></summary>
+
+- **`i++` (Post-incremento) vs. `++i` (Pre-incremento)**:
+  - `y = i++`: Primero asigna el valor de `i` a `y`, y luego incrementa `i`.
+  - `y = ++i`: Primero incrementa `i`, y luego asigna el nuevo valor a `y`.
+- **`&&` (AND lógico) vs. `&` (AND a nivel de bits)**:
+  - `&&`: Es un operador de cortocircuito. Si la primera condición es `false`, no evalúa la segunda. Es el que se usa casi siempre en condicionales `if`.
+  - `&`: Es un operador lógico y de bits. Siempre evalúa ambas condiciones, incluso si la primera ya determina el resultado.
+- **Operadores de bits**: C# también incluye operadores para manipulación a nivel de bits (`&`, `|`, `^`, `~`, `<<`, `>>`), que son útiles en escenarios de bajo nivel o para optimizaciones específicas.
+
 </details>
 
-<p align="right">
-  <a href="#índice">⬆️</a>
-</p>
+<p align="right"> <a href="#índice">⬆️</a> </p>
 
 ## Estructuras de control
 
